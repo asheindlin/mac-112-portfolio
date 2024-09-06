@@ -2,3 +2,8 @@
 title: "Activity 01"
 ---
 
+Hello I am currently tinkering with this document in r studio to see how it works. I hope this text stays.
+
+Ok, this is actually really cool. I never realized how many different files went into creating a website. 
+ 
+ Its interesting to see how almost every different page is its own file and how in addittion to that there are also even more files which tell R which files it needs to save to make the journal.
