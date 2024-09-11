@@ -4,7 +4,7 @@ project:
 
 book:
   title: "COMP/STAT112 Notebook"
-  author: "Your Name Here"
+  author: "Avery Sheindlin"
   date: "Date Here"
   reader-mode: true
   
@@ -16,6 +16,7 @@ book:
       - activities/activity-01.qmd
       - activities/activity-02.qmd
       - activities/activity-03.qmd
+      - activities/03-univariate-viz-notes.qmd
     
     - part: notes/README.qmd
       chapters: 
