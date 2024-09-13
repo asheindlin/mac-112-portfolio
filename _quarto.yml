@@ -17,6 +17,7 @@ book:
       - activities/activity-02.qmd
       - activities/activity-03.qmd
       - activities/03-univariate-viz-notes.qmd
+      - activities/Bivariate-viz.qmd
     
     - part: notes/README.qmd
       chapters: 
