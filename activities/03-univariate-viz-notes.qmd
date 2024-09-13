@@ -277,6 +277,7 @@ library(tidyverse)
 Consider some specific research questions about the difficulty `rating` of the hikes:
 
 How many hikes fall into each category? Are the hikes evenly distributed among these categories, or are some more common than others?
+7 hikes fall into difficult. 11 hikes fall into easy. And 27 fall into moderate. The moderate hike is the most common, and then easy , and then hard.
 
 All of these questions can be answered with: (1) a **bar chart**; of (2) the *categorical* data recorded in the `rating` column. First, set up the plotting **frame**:
 
@@ -286,12 +287,14 @@ ggplot(hikes, aes(x = rating)) + geom_bar()
 
 Think about:
 
--   What did this do? What do you observe? By adding + geom we cant tell R what kind of graph we want.
--   What, in general, is the first argument of the `ggplot()` function? It is telling r what is being plotted and from which survey.
+-   What did this do? What do you observe? 
+By adding + geom we cant tell R what kind of graph we want.
+-   What, in general, is the first argument of the `ggplot()` function?
+It is telling r what is being plotted and from which survey.
 -   What is the purpose of writing `x = rating`?
-it tells r what the x axis is.
+It tells r what the x axis is.
 -   What do you think `aes` stands for?!?
-axis
+It stands for axis
 
 \
 \
@@ -308,34 +311,34 @@ NOTE:
 -   Not all of these are "good" plots. We're just exploring `ggplot`.
 
 ```{r}
-# COMMENT on the change in the code and the corresponding change in the plot
+# This is a bar graph similar to what we made earlier.
 ggplot(hikes, aes(x = rating)) +
   geom_bar()
 ```
 
 ```{r}
-# COMMENT on the change in the code and the corresponding change in the plot
+# This changed the heading of the y axis from "count" to "Number of Hikes"
 ggplot(hikes, aes(x = rating)) +
   geom_bar() +
   labs(x = "Rating", y = "Number of hikes")
 ```
 
 ```{r}
-# COMMENT on the change in the code and the corresponding change in the plot
+# This made the bars in the bar graph blue.
 ggplot(hikes, aes(x = rating)) +
   geom_bar(fill = "blue") +
   labs(x = "Rating", y = "Number of hikes")
 ```
 
 ```{r}
-# COMMENT on the change in the code and the corresponding change in the plot
+# This gave the blue bars an orange outline.
 ggplot(hikes, aes(x = rating)) +
   geom_bar(color = "orange", fill = "blue") +
   labs(x = "Rating", y = "Number of hikes")
 ```
 
 ```{r}
-# COMMENT on the change in the code and the corresponding change in the plot
+# Changed the background of the chart from gray to white.
 ggplot(hikes, aes(x = rating)) +
   geom_bar(color = "orange", fill = "blue")  +
   labs(x = "Rating", y = "Number of hikes") +
@@ -353,10 +356,11 @@ ggplot(hikes, aes(x = rating)) +
 
 Reflect on the `ggplot()` code.
 
--   What's the purpose of the `+`? When do we use it? It adds a geametric layer of what kind of plot we want.
+-   What's the purpose of the `+`? When do we use it? 
+It adds a geometric layer of what kind of plot we want.
 
 -   We added the bars using `geom_bar()`? Why "geom"?
-Thats the geametric layer that is added.
+That's the geometric layer that is added.
 -   What does `labs()` stand for?
 
 -   What's the difference between `color` and `fill`?
@@ -373,6 +377,8 @@ We must then *translate* this information into the *context* of our analysis, he
 ### Part c {.unnumbered}
 
 Is there anything you don't like about this barplot? For example: check out the x-axis again.
+
+It doesnt go into the negatives?
 
 \
 \
@@ -391,9 +397,12 @@ Here:
 -   Explain why this might *not* be an effective visualization for this and other quantitative variables. (What questions does / doesn't it help answer?)
 
 ```{r}
-
+ggplot(hikes, aes(x = elevation)) +
+  geom_bar(color = "orange", fill = "blue")  +
+  labs(x = "Elevation", y = "Number of Hikes") +
+  theme_minimal()
 ```
-
+Its hard to easily visualize the different hikes because there are so many of them on this chart. And the range of the values are so huge it makes the bars difficult to look at.
 \
 \
 \
@@ -412,9 +421,9 @@ Quantitative variables require different viz than categorical variables. Especia
 Let's dig into some details.
 
 -   How many hikes have an elevation between 4500 and 4700 feet?
-
+aroung 12 different hikes
 -   How many total hikes have an elevation of at least 5100 feet?
-
+2 different hikes
 ### Part b {.unnumbered}
 
 Now the bigger picture. In general, histograms allow us to examine the following properties of a *quantitative* variable:
@@ -436,7 +445,7 @@ We must then *translate* this information into the *context* of our analysis, he
 2-MINUTE CHALLENGE: Thinking of the bar chart code, try to *intuit* what line you can tack on to the below frame of `elevation` to add a histogram layer. Don't forget a `+`. If it doesn't come to you within 2 minutes, *no problem* -- all will be revealed in the next exercise.
 
 ```{r}
-ggplot(hikes, aes(x = elevation))
+ggplot(hikes, aes(x = elevation))+geom_histogram()
 ```
 
 \
@@ -449,46 +458,46 @@ ggplot(hikes, aes(x = elevation))
 Let's build some histograms. Try each chunk below, *one by one*. In each chunk, make a comment about how both the code and the corresponding plot both changed.
 
 ```{r}
-# COMMENT on the change in the code and the corresponding change in the plot
+# Looks like the one I just made.
 ggplot(hikes, aes(x = elevation)) +
   geom_histogram()
 ```
 
 ```{r}
-# COMMENT on the change in the code and the corresponding change in the plot
+# Gave the bars a white hue.
 ggplot(hikes, aes(x = elevation)) +
   geom_histogram(color = "white") 
 ```
 
 ```{r}
-# COMMENT on the change in the code and the corresponding change in the plot
+# Made the bars a blue color.
 ggplot(hikes, aes(x = elevation)) +
   geom_histogram(color = "white", fill = "blue") 
 ```
 
 ```{r}
-# COMMENT on the change in the code and the corresponding change in the plot
+# Changed the titles of the x and y axis
 ggplot(hikes, aes(x = elevation)) +
   geom_histogram(color = "white") +
   labs(x = "Elevation (feet)", y = "Number of hikes")
 ```
 
 ```{r}
-# COMMENT on the change in the code and the corresponding change in the plot
+# Made the bars really wide
 ggplot(hikes, aes(x = elevation)) +
   geom_histogram(color = "white", binwidth = 1000) +
   labs(x = "Elevation (feet)", y = "Number of hikes")
 ```
 
 ```{r}
-# COMMENT on the change in the code and the corresponding change in the plot
+# Made the bars really thin
 ggplot(hikes, aes(x = elevation)) +
   geom_histogram(color = "white", binwidth = 5) +
   labs(x = "Elevation (feet)", y = "Number of hikes")
 ```
 
 ```{r}
-# COMMENT on the change in the code and the corresponding change in the plot
+# made the bars 200 wide
 ggplot(hikes, aes(x = elevation)) +
   geom_histogram(color = "white", binwidth = 200) +
   labs(x = "Elevation (feet)", y = "Number of hikes")
@@ -502,16 +511,22 @@ ggplot(hikes, aes(x = elevation)) +
 ## Exercise 10: Histogram follow-up {.unnumbered}
 
 -   What function added the histogram layer / geometry?
++geaom_histogram
 
 -   What's the difference between `color` and `fill`?
+Color gives a hue/halo around the bars. Fill give the color of the bar itself.
 
 -   Why does adding `color = "white"` improve the visualization?
+It distincs the bars from the gray background.
 
 -   What did `binwidth` do?
+changed the width of the bars
 
 -   Why does the histogram become ineffective if the `binwidth` is too big (e.g. 1000 feet)?
+we cant see every bar on the graph
 
 -   Why does the histogram become ineffective if the `binwidth` is too small (e.g. 5 feet)?
+we cant see the bars cause they are too thin
 
 \
 \
