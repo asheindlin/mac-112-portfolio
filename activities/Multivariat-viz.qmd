@@ -324,13 +324,14 @@ A codebook is provided by Danny Kaplan who also made these data accessible:
 Construct a plot of how the average `sat` scores vary from state to state. (Just use 1 variable -- `sat` not `State`!)
 
 ```{r}
+ggplot(education, aes(x = sat)) + geom_histogram(color = "white")
 ```
 
 #### Part b {-}
 
 Summarize your observations from the plot. Comment on the basics: range, typical outcomes, shape. (Any theories about what might explain this non-normal shape?)
 
-
+the highest score is 900. Scores range from around 300 to 1200. I think the range is so wide because some states schools are more underfunded than others.
 
 ### Exercise 2: SAT Scores vs Per Pupil Spending & SAT Scores vs Salaries {-}
 
@@ -342,11 +343,15 @@ The first question we'd like to answer is: Can the variability in `sat` scores f
 # Construct a plot of sat vs expend
 # Include a "best fit linear regression model" (HINT: method = "lm")
 
+ggplot(education, aes(x = expend, y = sat)) + geom_point() +  geom_smooth(method = "lm")
+
 ```
 
 ```{r}
 # Construct a plot of sat vs salary
 # Include a "best fit linear regression model" (HINT: method = "lm")
+
+ggplot(education, aes(x = salary, y = sat)) + geom_point() +  geom_smooth(method = "lm")
 
 ```
 
@@ -354,12 +359,14 @@ The first question we'd like to answer is: Can the variability in `sat` scores f
 
 What are the relationship trends between SAT scores and spending? Is there anything that surprises you?
 
+Yeah Im surprised that the higher the salary of the teacher and the higher the expendeture is the lower the sat scores.
 
 ### Exercise 3: SAT Scores vs Per Pupil Spending *and* Teacher Salaries {-}
 
 Construct *one* visualization of the relationship of `sat` with `salary` *and* `expend`. HINT: Start with just 2 variables and tweak that code to add the third variable. Try out a few things!
 
 ```{r}
+ggplot(education, aes(x = salary, y = sat, color = expend )) + geom_point() +  geom_smooth(method = "lm")
 ```
 
 
