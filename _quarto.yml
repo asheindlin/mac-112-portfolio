@@ -18,6 +18,7 @@ book:
       - activities/activity-03.qmd
       - activities/03-univariate-viz-notes.qmd
       - activities/Bivariate-viz.qmd
+      - activities/Multivariat-viz.qmd
     
     - part: notes/README.qmd
       chapters: 
@@ -33,5 +34,5 @@ format:
     code-tools: true
 
 execute:
-  cache: true
+  cache: false
   freeze: auto
