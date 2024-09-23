@@ -20,6 +20,7 @@ book:
       - activities/Bivariate-viz.qmd
       - activities/Multivariat-viz.qmd
       - activities/Spatial-viz.qmd
+      - activities/Effective-viz.qmd
     
     - part: notes/README.qmd
       chapters: 
