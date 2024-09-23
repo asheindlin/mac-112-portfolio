@@ -19,6 +19,7 @@ book:
       - activities/03-univariate-viz-notes.qmd
       - activities/Bivariate-viz.qmd
       - activities/Multivariat-viz.qmd
+      - activities/Spatial-viz.qmd
     
     - part: notes/README.qmd
       chapters: 
