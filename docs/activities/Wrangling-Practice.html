@@ -1,0 +1,2732 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.4.555">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>COMP/STAT112 Notebook - 10&nbsp; Wrangling Practice</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../notes/README.html" rel="next">
+<link href="../activities/Wrangle-Verb.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../activities/README.html">Activities</a></li><li class="breadcrumb-item"><a href="../activities/Wrangling-Practice.html"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Wrangling Practice</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">COMP/STAT112 Notebook</a> 
+        <div class="sidebar-tools-main">
+  <a href="" class="quarto-reader-toggle quarto-navigation-tool px-1" onclick="window.quartoToggleReader(); return false;" title="Toggle reader mode">
+  <div class="quarto-reader-toggle-btn">
+  <i class="bi"></i>
+  </div>
+</a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Introduction</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../activities/README.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Activities</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../activities/activity-01.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Activity 01</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../activities/activity-02.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Activity 02</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../activities/activity-03.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Activity 03</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../activities/03-univariate-viz-notes.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Data viz</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../activities/Bivariate-viz.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Bivariate viz</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../activities/Multivariat-viz.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Multivariate Viz</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../activities/Spatial-viz.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Spatial Viz</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../activities/Effective-viz.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Effective Viz</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../activities/Wrangle-Verb.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Wrangling Verbs</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../activities/Wrangling-Practice.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Wrangling Practice</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../notes/README.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Notes</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notes/note-01.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Note 01</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notes/note-02.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Note 02</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#warm-up" id="toc-warm-up" class="nav-link active" data-scroll-target="#warm-up"><span class="header-section-number">10.1</span> Warm-up</a>
+  <ul class="collapse">
+  <li><a href="#data-science-process" id="toc-data-science-process" class="nav-link" data-scroll-target="#data-science-process">Data Science Process</a></li>
+  <li><a href="#example-1-single-verb" id="toc-example-1-single-verb" class="nav-link" data-scroll-target="#example-1-single-verb">Example 1: Single Verb</a></li>
+  <li><a href="#example-2-multiple-verbs" id="toc-example-2-multiple-verbs" class="nav-link" data-scroll-target="#example-2-multiple-verbs">Example 2: Multiple Verbs</a></li>
+  <li><a href="#example-3-interpret-code" id="toc-example-3-interpret-code" class="nav-link" data-scroll-target="#example-3-interpret-code">Example 3: Interpret Code</a></li>
+  </ul></li>
+  <li><a href="#exercises-part-1-same-verbs-new-tricks" id="toc-exercises-part-1-same-verbs-new-tricks" class="nav-link" data-scroll-target="#exercises-part-1-same-verbs-new-tricks"><span class="header-section-number">10.2</span> Exercises Part 1: Same Verbs, New Tricks</a>
+  <ul class="collapse">
+  <li><a href="#exercise-1-more-filtering" id="toc-exercise-1-more-filtering" class="nav-link" data-scroll-target="#exercise-1-more-filtering">Exercise 1: More Filtering</a></li>
+  <li><a href="#exercise-2-more-selecting" id="toc-exercise-2-more-selecting" class="nav-link" data-scroll-target="#exercise-2-more-selecting">Exercise 2: More Selecting</a></li>
+  <li><a href="#exercise-3-arranging-counting-grouping-by-multiple-variables" id="toc-exercise-3-arranging-counting-grouping-by-multiple-variables" class="nav-link" data-scroll-target="#exercise-3-arranging-counting-grouping-by-multiple-variables">Exercise 3: Arranging, Counting, &amp; Grouping by Multiple Variables</a></li>
+  <li><a href="#exercise-4-dates" id="toc-exercise-4-dates" class="nav-link" data-scroll-target="#exercise-4-dates">Exercise 4: Dates</a></li>
+  </ul></li>
+  <li><a href="#exercises-part-2-application" id="toc-exercises-part-2-application" class="nav-link" data-scroll-target="#exercises-part-2-application"><span class="header-section-number">10.3</span> Exercises Part 2: Application</a>
+  <ul class="collapse">
+  <li><a href="#exercise-5-warming-up" id="toc-exercise-5-warming-up" class="nav-link" data-scroll-target="#exercise-5-warming-up">Exercise 5: Warming up</a></li>
+  <li><a href="#exercise-6-homework-reprise" id="toc-exercise-6-homework-reprise" class="nav-link" data-scroll-target="#exercise-6-homework-reprise">Exercise 6: Homework Reprise</a></li>
+  <li><a href="#exercise-7-wrangle-plot" id="toc-exercise-7-wrangle-plot" class="nav-link" data-scroll-target="#exercise-7-wrangle-plot">Exercise 7: Wrangle &amp; Plot</a></li>
+  <li><a href="#exercise-8-more-practice" id="toc-exercise-8-more-practice" class="nav-link" data-scroll-target="#exercise-8-more-practice">Exercise 8: More Practice</a></li>
+  </ul></li>
+  <li><a href="#solutions" id="toc-solutions" class="nav-link" data-scroll-target="#solutions"><span class="header-section-number">10.4</span> Solutions</a>
+  <ul class="collapse">
+  <li><a href="#example-1-single-verb-1" id="toc-example-1-single-verb-1" class="nav-link" data-scroll-target="#example-1-single-verb-1">Example 1: Single Verb</a></li>
+  <li><a href="#example-2-multiple-verbs-1" id="toc-example-2-multiple-verbs-1" class="nav-link" data-scroll-target="#example-2-multiple-verbs-1">Example 2: Multiple Verbs</a></li>
+  <li><a href="#example-3-interpret-code-1" id="toc-example-3-interpret-code-1" class="nav-link" data-scroll-target="#example-3-interpret-code-1">Example 3: Interpret Code</a></li>
+  <li><a href="#exercise-1-more-filtering-1" id="toc-exercise-1-more-filtering-1" class="nav-link" data-scroll-target="#exercise-1-more-filtering-1">Exercise 1: More Filtering</a></li>
+  <li><a href="#exercise-2-more-selecting-1" id="toc-exercise-2-more-selecting-1" class="nav-link" data-scroll-target="#exercise-2-more-selecting-1">Exercise 2: More selecting</a></li>
+  <li><a href="#exercise-3-arranging-counting-grouping-by-multiple-variables-1" id="toc-exercise-3-arranging-counting-grouping-by-multiple-variables-1" class="nav-link" data-scroll-target="#exercise-3-arranging-counting-grouping-by-multiple-variables-1">Exercise 3: Arranging, counting, &amp; grouping by multiple variables</a></li>
+  <li><a href="#exercise-4-dates-1" id="toc-exercise-4-dates-1" class="nav-link" data-scroll-target="#exercise-4-dates-1">Exercise 4: Dates</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../activities/README.html">Activities</a></li><li class="breadcrumb-item"><a href="../activities/Wrangling-Practice.html"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Wrangling Practice</span></a></li></ol></nav>
+<div class="quarto-title">
+<div class="quarto-title-block"><div><h1 class="title"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Wrangling Practice</span></h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="callout callout-style-default callout-caution callout-titled" title="Learning Goals">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Learning Goals
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>Review wrangling verbs <code>select</code>, <code>mutate</code>, <code>filter</code>, <code>arrange</code>, <code>summarize</code>, <code>group_by</code></li>
+<li>Form conceptual understanding of code without running it</li>
+<li>Practice using wrangling verbs in different way</li>
+<li>Practice dealing with dates using <code>lubridate</code> functions</li>
+</ul>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled" title="Additional Resources">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Additional Resources
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>For more information about the topics covered in this chapter, refer to the resources below:</p>
+<ul>
+<li><a href="https://r4ds.hadley.nz/datetimes">Date and Times (html)</a> by Wickham, Çetinkaya-Rundel, &amp; Grolemund</li>
+</ul>
+</div>
+</div>
+<p>Today In class we practiced wrangling verbs. I think I am starting to understand it a little bit more. I do find it a little confusing still because it almost feels as if I am learning a new language.</p>
+<section id="warm-up" class="level2" data-number="10.1">
+<h2 data-number="10.1" class="anchored" data-anchor-id="warm-up"><span class="header-section-number">10.1</span> Warm-up</h2>
+<section id="data-science-process" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="data-science-process">Data Science Process</h3>
+<p>Below is the visual representation of the data science process we saw earlier. Which stage are we in currently?</p>
+<p><img src="https://mac-stat.github.io/images/112/legos.png" class="img-fluid"></p>
+<p>Recall that wrangling is important. It is much of what we spend our efforts on in Data Science. There are lots of steps, hence R functions, that can go into data wrangling. But we can get far with the following 6 <em>wrangling verbs</em>:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">verb</th>
+<th style="text-align: left;">action</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><code>arrange</code></td>
+<td style="text-align: left;"><strong>arrange</strong> the <em>rows</em> according to some <em>column</em></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>filter</code></td>
+<td style="text-align: left;"><strong>filter</strong> out or obtain a subset of the <em>rows</em></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>select</code></td>
+<td style="text-align: left;"><strong>select</strong> a subset of <em>columns</em></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>mutate</code></td>
+<td style="text-align: left;"><strong>mutate</strong> or create a <em>column</em></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>summarize</code></td>
+<td style="text-align: left;">calculate a numerical <strong>summary</strong> of a <em>column</em></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>group_by</code></td>
+<td style="text-align: left;"><strong>group</strong> the <em>rows</em> by a specified <em>column</em></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="example-1-single-verb" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="example-1-single-verb">Example 1: Single Verb</h3>
+<p>Let’s start by working with some TidyTuesday data on penguins. This data includes information about penguins’ flippers (“arms”) and bills (“mouths” or “beaks”). Let’s import this using <code>read_csv()</code>, a function in the <code>tidyverse</code> package. For the most part, this is similar to <code>read.csv()</code>, though <code>read_csv()</code> can be more efficient at importing large datasets.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-2"><a href="#cb1-2"></a>penguins <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">'https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-07-28/penguins.csv'</span>)</span>
+<span id="cb1-3"><a href="#cb1-3"></a></span>
+<span id="cb1-4"><a href="#cb1-4"></a><span class="co"># Check it out</span></span>
+<span id="cb1-5"><a href="#cb1-5"></a><span class="fu">head</span>(penguins)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 8
+  species island    bill_length_mm bill_depth_mm flipper_length_mm body_mass_g
+  &lt;chr&gt;   &lt;chr&gt;              &lt;dbl&gt;         &lt;dbl&gt;             &lt;dbl&gt;       &lt;dbl&gt;
+1 Adelie  Torgersen           39.1          18.7               181        3750
+2 Adelie  Torgersen           39.5          17.4               186        3800
+3 Adelie  Torgersen           40.3          18                 195        3250
+4 Adelie  Torgersen           NA            NA                  NA          NA
+5 Adelie  Torgersen           36.7          19.3               193        3450
+6 Adelie  Torgersen           39.3          20.6               190        3650
+# ℹ 2 more variables: sex &lt;chr&gt;, year &lt;dbl&gt;</code></pre>
+</div>
+</div>
+<div class="callout callout-style-default callout-warning callout-titled" title="Check Understanding">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Check Understanding
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Construct a plot that allows us to examine how the relationship between body mass and bill length varies by species and sex.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-warning callout-titled" title="Check Understanding">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Check Understanding
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Use the 6 wrangling verbs to address each task in the code chunk below. You can tack on <code>|&gt; head()</code> to print out just 6 rows to keep your rendered document manageable. Most of these require just 1 verb.</p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="co"># Get data on only Adelie penguins that weigh more than 4700g</span></span>
+<span id="cb3-2"><a href="#cb3-2"></a></span>
+<span id="cb3-3"><a href="#cb3-3"></a></span>
+<span id="cb3-4"><a href="#cb3-4"></a><span class="co"># Get data on penguin body mass only</span></span>
+<span id="cb3-5"><a href="#cb3-5"></a><span class="co"># Show just the first 6 rows</span></span>
+<span id="cb3-6"><a href="#cb3-6"></a></span>
+<span id="cb3-7"><a href="#cb3-7"></a></span>
+<span id="cb3-8"><a href="#cb3-8"></a><span class="co"># Sort the penguins from smallest to largest body mass</span></span>
+<span id="cb3-9"><a href="#cb3-9"></a><span class="co"># Show just the first 6 rows</span></span>
+<span id="cb3-10"><a href="#cb3-10"></a></span>
+<span id="cb3-11"><a href="#cb3-11"></a></span>
+<span id="cb3-12"><a href="#cb3-12"></a></span>
+<span id="cb3-13"><a href="#cb3-13"></a><span class="co"># Calculate the average body mass across all penguins</span></span>
+<span id="cb3-14"><a href="#cb3-14"></a><span class="co"># Note: na.rm = TRUE removes the NAs from the calculation</span></span>
+<span id="cb3-15"><a href="#cb3-15"></a></span>
+<span id="cb3-16"><a href="#cb3-16"></a></span>
+<span id="cb3-17"><a href="#cb3-17"></a></span>
+<span id="cb3-18"><a href="#cb3-18"></a><span class="co"># Calculate the average body mass by species</span></span>
+<span id="cb3-19"><a href="#cb3-19"></a></span>
+<span id="cb3-20"><a href="#cb3-20"></a></span>
+<span id="cb3-21"><a href="#cb3-21"></a></span>
+<span id="cb3-22"><a href="#cb3-22"></a><span class="co"># Create a new column that records body mass in kilograms, not grams</span></span>
+<span id="cb3-23"><a href="#cb3-23"></a><span class="co"># </span><span class="al">NOTE</span><span class="co">: there are 1000 g in 1 kg</span></span>
+<span id="cb3-24"><a href="#cb3-24"></a><span class="co"># Show just the first 6 rows</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="callout callout-style-default callout-warning callout-titled" title="Check Understanding">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Check Understanding
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>How many penguins of each species do we have? Create a viz that addresses this question.</p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="fu">ggplot</span>(penguins, <span class="fu">aes</span>(<span class="at">x =</span> species))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Wrangling-Practice_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-warning callout-titled" title="Check Understanding">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Check Understanding
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Can we use the 6 verbs to calculate exactly how many penguins in each species?</p>
+<p>HINT: <code>n()</code> calculates group size.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled" title="`count` verb">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<code>count</code> verb
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The <code>count()</code> verb provides a handy shortcut!</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a>penguins <span class="sc">|&gt;</span> </span>
+<span id="cb5-2"><a href="#cb5-2"></a>  <span class="fu">count</span>(species)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 2
+  species       n
+  &lt;chr&gt;     &lt;int&gt;
+1 Adelie      152
+2 Chinstrap    68
+3 Gentoo      124</code></pre>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="example-2-multiple-verbs" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="example-2-multiple-verbs">Example 2: Multiple Verbs</h3>
+<div class="callout callout-style-default callout-warning callout-titled" title="Check Understanding">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Check Understanding
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Let’s practice <em>combining</em> some verbs. For each task:</p>
+<ul>
+<li>Translate the prompt into our 6 verbs. That is, think before you type.</li>
+<li>Build your code line by line. It’s important to understand what’s being piped into each function!</li>
+<li>Ask what you can rearrange and still get the same result.</li>
+<li>Read your final code like a paragraph / a conversation. Would another person be able to follow your logic?</li>
+</ul>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a><span class="co"># Sort Gentoo penguins from biggest to smallest with respect to their </span></span>
+<span id="cb7-2"><a href="#cb7-2"></a><span class="co"># bill length in cm (there are 10 mm in a cm)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a><span class="co"># Sort the species from smallest to biggest with respect to their </span></span>
+<span id="cb8-2"><a href="#cb8-2"></a><span class="co"># average bill length in cm</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="example-3-interpret-code" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="example-3-interpret-code">Example 3: Interpret Code</h3>
+<p>Let’s practice reading and making sense of somebody <em>else</em>’s code. What do you think this produces?</p>
+<ul>
+<li>How many columns? Rows?</li>
+<li>What are the column names?</li>
+<li>What’s represented in each row?</li>
+</ul>
+<p>Once you’ve thought about it, put the code inside a chunk and run it!</p>
+<p>penguins |&gt; filter(species == “Chinstrap”) |&gt; group_by(sex) |&gt; summarize(min = min(body_mass_g), max = max(body_mass_g)) |&gt; mutate(range = max - min)</p>
+<p><br>
+<br>
+<br>
+<br>
+</p>
+</section>
+</section>
+<section id="exercises-part-1-same-verbs-new-tricks" class="level2" data-number="10.2">
+<h2 data-number="10.2" class="anchored" data-anchor-id="exercises-part-1-same-verbs-new-tricks"><span class="header-section-number">10.2</span> Exercises Part 1: Same Verbs, New Tricks</h2>
+<section id="exercise-1-more-filtering" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="exercise-1-more-filtering">Exercise 1: More Filtering</h3>
+<p>Recall the “logical comparison operators” we can use to <code>filter()</code> our data:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">symbol</th>
+<th style="text-align: left;">meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><code>==</code></td>
+<td style="text-align: left;">equal to</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>!=</code></td>
+<td style="text-align: left;">not equal to</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>&gt;</code></td>
+<td style="text-align: left;">greater than</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>&gt;=</code></td>
+<td style="text-align: left;">greater than or equal to</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>&lt;</code></td>
+<td style="text-align: left;">less than</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>&lt;=</code></td>
+<td style="text-align: left;">less than or equal to</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>%in% c(***, ***)</code></td>
+<td style="text-align: left;">a list of multiple values</td>
+</tr>
+</tbody>
+</table>
+<section id="part-a" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="part-a">Part a</h4>
+<div class="callout callout-style-default callout-tip callout-titled" title="Commenting/Uncommenting Code">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Commenting/Uncommenting Code
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>To comment/uncomment several lines of code at once, highlight them then click <kbd>ctrl/cmd</kbd>+<kbd>shift</kbd>+<kbd>c</kbd>.</p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a><span class="co"># Create a dataset with just Adelie and Chinstrap using %in%</span></span>
+<span id="cb9-2"><a href="#cb9-2"></a><span class="co"># Pipe this into `count(species)` to confirm that you only have these 2 species</span></span>
+<span id="cb9-3"><a href="#cb9-3"></a><span class="co"># ___ |&gt; </span></span>
+<span id="cb9-4"><a href="#cb9-4"></a><span class="co">#   filter(___) |&gt; </span></span>
+<span id="cb9-5"><a href="#cb9-5"></a><span class="co">#   count(species)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a><span class="co"># Create a dataset with just Adelie and Chinstrap using !=</span></span>
+<span id="cb10-2"><a href="#cb10-2"></a><span class="co"># Pipe this into `count(species)` to confirm that you only have these 2 species</span></span>
+<span id="cb10-3"><a href="#cb10-3"></a><span class="co"># ___ |&gt; </span></span>
+<span id="cb10-4"><a href="#cb10-4"></a><span class="co">#   filter(___) |&gt; </span></span>
+<span id="cb10-5"><a href="#cb10-5"></a><span class="co">#   count(species)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="part-b" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="part-b">Part b</h4>
+<p>Notice that some of our penguins have missing (<code>NA</code>) data on some values:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a><span class="fu">head</span>(penguins)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 8
+  species island    bill_length_mm bill_depth_mm flipper_length_mm body_mass_g
+  &lt;chr&gt;   &lt;chr&gt;              &lt;dbl&gt;         &lt;dbl&gt;             &lt;dbl&gt;       &lt;dbl&gt;
+1 Adelie  Torgersen           39.1          18.7               181        3750
+2 Adelie  Torgersen           39.5          17.4               186        3800
+3 Adelie  Torgersen           40.3          18                 195        3250
+4 Adelie  Torgersen           NA            NA                  NA          NA
+5 Adelie  Torgersen           36.7          19.3               193        3450
+6 Adelie  Torgersen           39.3          20.6               190        3650
+# ℹ 2 more variables: sex &lt;chr&gt;, year &lt;dbl&gt;</code></pre>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled" title="Handeling `NA` Values">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Handeling <code>NA</code> Values
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>There are many ways to handle missing data. The right approach depends upon your research goals. A general rule is: Only get rid of observations with missing data if they’re missing data on variables you <em>need</em> for the specific task at hand!</p>
+</div>
+</div>
+<p><strong>Example 1</strong></p>
+<p>Suppose our research focus is <em>just</em> on <code>body_mass_g</code>. Two penguins are missing this info:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a><span class="co"># </span><span class="al">NOTE</span><span class="co"> the use of is.na()</span></span>
+<span id="cb13-2"><a href="#cb13-2"></a>penguins <span class="sc">|&gt;</span> </span>
+<span id="cb13-3"><a href="#cb13-3"></a>  <span class="fu">summarize</span>(<span class="fu">sum</span>(<span class="fu">is.na</span>(body_mass_g)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 1
+  `sum(is.na(body_mass_g))`
+                      &lt;int&gt;
+1                         2</code></pre>
+</div>
+</div>
+<p>Let’s define a new dataset that removes these penguins:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a><span class="co"># </span><span class="al">NOTE</span><span class="co"> the use of is.na()</span></span>
+<span id="cb15-2"><a href="#cb15-2"></a>penguins_w_body_mass <span class="ot">&lt;-</span> penguins <span class="sc">|&gt;</span> </span>
+<span id="cb15-3"><a href="#cb15-3"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(body_mass_g))</span>
+<span id="cb15-4"><a href="#cb15-4"></a></span>
+<span id="cb15-5"><a href="#cb15-5"></a><span class="co"># Compare the number of penguins in this vs the original data</span></span>
+<span id="cb15-6"><a href="#cb15-6"></a><span class="fu">nrow</span>(penguins_w_body_mass)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 342</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1"></a><span class="fu">nrow</span>(penguins)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 344</code></pre>
+</div>
+</div>
+<p>Note that some penguins in <code>penguins_w_body_mass</code> are missing info on <code>sex</code>, but we don’t care since that’s not related to our research question:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1"></a>penguins_w_body_mass <span class="sc">|&gt;</span> </span>
+<span id="cb19-2"><a href="#cb19-2"></a>  <span class="fu">summarize</span>(<span class="fu">sum</span>(<span class="fu">is.na</span>(sex)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 1
+  `sum(is.na(sex))`
+              &lt;int&gt;
+1                 9</code></pre>
+</div>
+</div>
+<p><strong>Example 2</strong></p>
+<p>In the <em>very rare case</em> that we need complete information on every variable for the specific task at hand, we can use <code>na.omit()</code> to get rid of <em>any</em> penguin that’s missing info on <em>any</em> variable:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1"></a>penguins_complete <span class="ot">&lt;-</span> penguins <span class="sc">|&gt;</span> </span>
+<span id="cb21-2"><a href="#cb21-2"></a>  <span class="fu">na.omit</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>How many penguins did this eliminate?</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1"></a><span class="fu">nrow</span>(penguins_complete)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 333</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1"></a><span class="fu">nrow</span>(penguins)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 344</code></pre>
+</div>
+</div>
+</section>
+<section id="part-c" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="part-c">Part c</h4>
+<p>Explain why we should only use <code>na.omit()</code> in extreme circumstances.</p>
+<p><br>
+<br>
+<br>
+<br>
+</p>
+</section>
+</section>
+<section id="exercise-2-more-selecting" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="exercise-2-more-selecting">Exercise 2: More Selecting</h3>
+<p>Being able to <code>select()</code> only certain columns can help simplify our data. This is especially important when we’re working with <em>lots</em> of columns (which we haven’t done yet). It can also get tedious to type out every column of interest. Here are some shortcuts:</p>
+<ul>
+<li><code>-</code> <em>removes</em> a given variable and keeps all others (e.g.&nbsp;<code>select(-island)</code>)</li>
+<li><code>starts_with("___")</code>, <code>ends_with("___")</code>, or <code>contains("___")</code> selects only the columns that either start with, end with, or simply contain the given string of characters</li>
+</ul>
+<p>Use these <em>shortcuts</em> to create the following datasets.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1"></a><span class="co"># First: recall the variable names</span></span>
+<span id="cb26-2"><a href="#cb26-2"></a><span class="fu">names</span>(penguins)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "species"           "island"            "bill_length_mm"   
+[4] "bill_depth_mm"     "flipper_length_mm" "body_mass_g"      
+[7] "sex"               "year"             </code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1"></a><span class="co"># Use a shortcut to keep everything but the year and island variables</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1"></a><span class="co"># Use a shortcut to keep only species and the penguin characteristics measured in mm</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1"></a><span class="co"># Use a shortcut to keep only species and bill-related measurements</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1"></a><span class="co"># Use a shortcut to keep only species and the length-related characteristics</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><br>
+<br>
+<br>
+<br>
+</p>
+</section>
+<section id="exercise-3-arranging-counting-grouping-by-multiple-variables" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="exercise-3-arranging-counting-grouping-by-multiple-variables">Exercise 3: Arranging, Counting, &amp; Grouping by Multiple Variables</h3>
+<p>We’ve done examples where we need to <code>filter()</code> by more than one variable, or <code>select()</code> more than one variable. Use your intuition for how we can <code>arrange()</code>, <code>count()</code>, and <code>group_by()</code> more than one variable.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1"></a><span class="co"># Change this code to sort the penguins by species, and then island name</span></span>
+<span id="cb32-2"><a href="#cb32-2"></a><span class="co"># </span><span class="al">NOTE</span><span class="co">: The first row should be an Adelie penguin living on Biscoe island</span></span>
+<span id="cb32-3"><a href="#cb32-3"></a>penguins <span class="sc">|&gt;</span> </span>
+<span id="cb32-4"><a href="#cb32-4"></a>  <span class="fu">arrange</span>(species)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 344 × 8
+   species island    bill_length_mm bill_depth_mm flipper_length_mm body_mass_g
+   &lt;chr&gt;   &lt;chr&gt;              &lt;dbl&gt;         &lt;dbl&gt;             &lt;dbl&gt;       &lt;dbl&gt;
+ 1 Adelie  Torgersen           39.1          18.7               181        3750
+ 2 Adelie  Torgersen           39.5          17.4               186        3800
+ 3 Adelie  Torgersen           40.3          18                 195        3250
+ 4 Adelie  Torgersen           NA            NA                  NA          NA
+ 5 Adelie  Torgersen           36.7          19.3               193        3450
+ 6 Adelie  Torgersen           39.3          20.6               190        3650
+ 7 Adelie  Torgersen           38.9          17.8               181        3625
+ 8 Adelie  Torgersen           39.2          19.6               195        4675
+ 9 Adelie  Torgersen           34.1          18.1               193        3475
+10 Adelie  Torgersen           42            20.2               190        4250
+# ℹ 334 more rows
+# ℹ 2 more variables: sex &lt;chr&gt;, year &lt;dbl&gt;</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1"></a><span class="co"># Change this code to count the number of male/female penguins observed for each species</span></span>
+<span id="cb34-2"><a href="#cb34-2"></a>penguins <span class="sc">|&gt;</span> </span>
+<span id="cb34-3"><a href="#cb34-3"></a>  <span class="fu">count</span>(species)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 2
+  species       n
+  &lt;chr&gt;     &lt;int&gt;
+1 Adelie      152
+2 Chinstrap    68
+3 Gentoo      124</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1"></a><span class="co"># Change this code to calculate the average body mass by species and sex</span></span>
+<span id="cb36-2"><a href="#cb36-2"></a>penguins <span class="sc">|&gt;</span> </span>
+<span id="cb36-3"><a href="#cb36-3"></a>  <span class="fu">group_by</span>(species) <span class="sc">|&gt;</span> </span>
+<span id="cb36-4"><a href="#cb36-4"></a>  <span class="fu">summarize</span>(<span class="at">mean =</span> <span class="fu">mean</span>(body_mass_g, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 2
+  species    mean
+  &lt;chr&gt;     &lt;dbl&gt;
+1 Adelie    3701.
+2 Chinstrap 3733.
+3 Gentoo    5076.</code></pre>
+</div>
+</div>
+<p><br>
+<br>
+<br>
+<br>
+</p>
+</section>
+<section id="exercise-4-dates" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="exercise-4-dates">Exercise 4: Dates</h3>
+<p>Before some wrangling practice, let’s explore another important concept: working with or mutating <em>date</em> variables. Dates are a whole special object type or class in R that automatically respect the order of time.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1"></a><span class="co"># Get today's date</span></span>
+<span id="cb38-2"><a href="#cb38-2"></a><span class="fu">as.Date</span>(<span class="fu">today</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "2024-10-04"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1"></a><span class="co"># Let's store this as "today" so we can work with it below</span></span>
+<span id="cb40-2"><a href="#cb40-2"></a>today <span class="ot">&lt;-</span> <span class="fu">as.Date</span>(<span class="fu">today</span>())</span>
+<span id="cb40-3"><a href="#cb40-3"></a></span>
+<span id="cb40-4"><a href="#cb40-4"></a><span class="co"># Check out the class of this object</span></span>
+<span id="cb40-5"><a href="#cb40-5"></a><span class="fu">class</span>(today)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "Date"</code></pre>
+</div>
+</div>
+<p>The <code>lubridate</code> package inside <code>tidyverse</code> contains functions that can extract various information from dates. Let’s learn about some of the most common functions by applying them to <code>today</code>. For each, make a comment on what the function does</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1"></a><span class="fu">year</span>(today)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 2024</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1"></a><span class="co"># What do these lines produce / what's their difference?</span></span>
+<span id="cb44-2"><a href="#cb44-2"></a><span class="fu">month</span>(today)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 10</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1"></a><span class="fu">month</span>(today, <span class="at">label =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] Oct
+12 Levels: Jan &lt; Feb &lt; Mar &lt; Apr &lt; May &lt; Jun &lt; Jul &lt; Aug &lt; Sep &lt; ... &lt; Dec</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1"></a><span class="co"># What does this number mean?</span></span>
+<span id="cb48-2"><a href="#cb48-2"></a><span class="fu">week</span>(today)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 40</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1"></a><span class="co"># What do these lines produce / what's their difference?</span></span>
+<span id="cb50-2"><a href="#cb50-2"></a><span class="fu">mday</span>(today)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 4</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1"></a><span class="fu">yday</span>(today)  <span class="co"># This is often called the "Julian day"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 278</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1"></a><span class="co"># What do these lines produce / what's their difference?</span></span>
+<span id="cb54-2"><a href="#cb54-2"></a><span class="fu">wday</span>(today)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 6</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1"></a><span class="fu">wday</span>(today, <span class="at">label =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] Fri
+Levels: Sun &lt; Mon &lt; Tue &lt; Wed &lt; Thu &lt; Fri &lt; Sat</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1"></a><span class="co"># What do the results of these 2 lines tell us?</span></span>
+<span id="cb58-2"><a href="#cb58-2"></a>today <span class="sc">&gt;=</span> <span class="fu">ymd</span>(<span class="st">"2024-02-14"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] TRUE</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1"></a>today <span class="sc">&lt;</span> <span class="fu">ymd</span>(<span class="st">"2024-02-14"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] FALSE</code></pre>
+</div>
+</div>
+<p><br>
+<br>
+<br>
+<br>
+</p>
+</section>
+</section>
+<section id="exercises-part-2-application" class="level2" data-number="10.3">
+<h2 data-number="10.3" class="anchored" data-anchor-id="exercises-part-2-application"><span class="header-section-number">10.3</span> Exercises Part 2: Application</h2>
+<p>The remaining exercises are <em>similar</em> to some of those on the homework. Hence, the solutions are not provided. Let’s apply these ideas to the daily <code>Birthdays</code> dataset in the <code>mosaic</code> package.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1"></a><span class="fu">library</span>(mosaic)</span>
+<span id="cb62-2"><a href="#cb62-2"></a><span class="fu">data</span>(<span class="st">"Birthdays"</span>)</span>
+<span id="cb62-3"><a href="#cb62-3"></a><span class="fu">head</span>(Birthdays)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  state year month day       date wday births
+1    AK 1969     1   1 1969-01-01  Wed     14
+2    AL 1969     1   1 1969-01-01  Wed    174
+3    AR 1969     1   1 1969-01-01  Wed     78
+4    AZ 1969     1   1 1969-01-01  Wed     84
+5    CA 1969     1   1 1969-01-01  Wed    824
+6    CO 1969     1   1 1969-01-01  Wed    100</code></pre>
+</div>
+</div>
+<p><code>Birthdays</code> gives the number of births recorded on each day of the year in each state from 1969 to 1988<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>. We can use our wrangling skills to understand some drivers of daily births. Putting these all together can be challenging! Remember the following ways to make tasks more manageable:</p>
+<ul>
+<li>Translate the prompt into our 6 verbs (and <code>count()</code>). That is, think before you type.</li>
+<li>Build your code line by line. It’s important to understand what’s being piped into each function!</li>
+</ul>
+<section id="exercise-5-warming-up" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="exercise-5-warming-up">Exercise 5: Warming up</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb64"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1"></a><span class="co"># How many days of data do we have for each state?</span></span>
+<span id="cb64-2"><a href="#cb64-2"></a></span>
+<span id="cb64-3"><a href="#cb64-3"></a></span>
+<span id="cb64-4"><a href="#cb64-4"></a><span class="co"># How many total births were there in this time period?</span></span>
+<span id="cb64-5"><a href="#cb64-5"></a></span>
+<span id="cb64-6"><a href="#cb64-6"></a></span>
+<span id="cb64-7"><a href="#cb64-7"></a><span class="co"># How many total births were there per state in this time period, sorted from low to high?</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="exercise-6-homework-reprise" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="exercise-6-homework-reprise">Exercise 6: Homework Reprise</h3>
+<p>Create a new dataset named <code>daily_births</code> that includes the total number of births per day (across all states) and the corresponding day of the week, eg, Mon. NOTE: Name the column with total births so that it’s easier to wrangle and plot.</p>
+<p>Using this data, construct a plot of <code>births</code> over time, indicating the day of week.</p>
+</section>
+<section id="exercise-7-wrangle-plot" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="exercise-7-wrangle-plot">Exercise 7: Wrangle &amp; Plot</h3>
+<p>For each prompt below, you can decide whether you want to: (1) wrangle and store data, then plot; or (2) wrangle data and pipe directly into ggplot. For example:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb65"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb65-1"><a href="#cb65-1"></a>penguins <span class="sc">|&gt;</span> </span>
+<span id="cb65-2"><a href="#cb65-2"></a>  <span class="fu">filter</span>(species <span class="sc">!=</span> <span class="st">"Gentoo"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb65-3"><a href="#cb65-3"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">y =</span> bill_length_mm, <span class="at">x =</span> bill_depth_mm, <span class="at">color =</span> species)) <span class="sc">+</span> </span>
+<span id="cb65-4"><a href="#cb65-4"></a>    <span class="fu">geom_point</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Wrangling-Practice_files/figure-html/unnamed-chunk-36-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<section id="part-a-1" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="part-a-1">Part a</h4>
+<p>Calculate the total number of births in each month and year, eg, Jan 1969, Feb 1969, …. Label month by names not numbers, eg, Jan not 1. Then, plot the births by month and comment on what you learn.</p>
+</section>
+<section id="part-b-1" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="part-b-1">Part b</h4>
+<p>In 1988, calculate the total number of births per week in each state. Get rid of week “53”, which isn’t a complete week! Then, make a line plot of births by week for each state and comment on what you learn. For example, do you notice any seasonal trends? Are these the same in every state? Any outliers?</p>
+</section>
+<section id="part-c-1" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="part-c-1">Part c</h4>
+<p>Repeat the above for just Minnesota (MN) and Louisiana (LA). MN has one of the coldest climates and LA has one of the warmest. How do their seasonal trends compare? Do you think these trends are similar in other colder and warmer states? Try it!</p>
+</section>
+</section>
+<section id="exercise-8-more-practice" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="exercise-8-more-practice">Exercise 8: More Practice</h3>
+<section id="part-a-2" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="part-a-2">Part a</h4>
+<p>Create a dataset with only births in Massachusetts (MA) in 1979 and sort the days from those with the most births to those with the fewest.</p>
+</section>
+<section id="part-b-2" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="part-b-2">Part b</h4>
+<p>Make a table showing the five states with the most births between September 9, 1979 and September 12, 1979, including the 9th and 12th. Arrange the table in descending order of births.</p>
+</section>
+</section>
+</section>
+<section id="solutions" class="level2" data-number="10.4">
+<h2 data-number="10.4" class="anchored" data-anchor-id="solutions"><span class="header-section-number">10.4</span> Solutions</h2>
+<details>
+<summary>
+Click for Solutions
+</summary>
+<section id="example-1-single-verb-1" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="example-1-single-verb-1">Example 1: Single Verb</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb66"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1"></a><span class="fu">ggplot</span>(penguins, <span class="fu">aes</span>(<span class="at">y =</span> body_mass_g, <span class="at">x =</span> bill_length_mm, <span class="at">color =</span> species)) <span class="sc">+</span> </span>
+<span id="cb66-2"><a href="#cb66-2"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span> </span>
+<span id="cb66-3"><a href="#cb66-3"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> sex)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Wrangling-Practice_files/figure-html/unnamed-chunk-41-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><br>
+<br>
+<br>
+<br>
+</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb67"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb67-1"><a href="#cb67-1"></a><span class="co"># Get data on only Adelie penguins that weigh more than 4700g</span></span>
+<span id="cb67-2"><a href="#cb67-2"></a>penguins <span class="sc">|&gt;</span> </span>
+<span id="cb67-3"><a href="#cb67-3"></a>  <span class="fu">filter</span>(species <span class="sc">==</span> <span class="st">"Adelie"</span>, body_mass_g <span class="sc">&gt;</span> <span class="dv">4700</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2 × 8
+  species island bill_length_mm bill_depth_mm flipper_length_mm body_mass_g
+  &lt;chr&gt;   &lt;chr&gt;           &lt;dbl&gt;         &lt;dbl&gt;             &lt;dbl&gt;       &lt;dbl&gt;
+1 Adelie  Biscoe           41              20               203        4725
+2 Adelie  Biscoe           43.2            19               197        4775
+# ℹ 2 more variables: sex &lt;chr&gt;, year &lt;dbl&gt;</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb69"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb69-1"><a href="#cb69-1"></a><span class="co"># Get data on penguin body mass only</span></span>
+<span id="cb69-2"><a href="#cb69-2"></a><span class="co"># Show just the first 6 rows</span></span>
+<span id="cb69-3"><a href="#cb69-3"></a>penguins <span class="sc">|&gt;</span> </span>
+<span id="cb69-4"><a href="#cb69-4"></a>  <span class="fu">select</span>(body_mass_g) <span class="sc">|&gt;</span> </span>
+<span id="cb69-5"><a href="#cb69-5"></a>  <span class="fu">head</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 1
+  body_mass_g
+        &lt;dbl&gt;
+1        3750
+2        3800
+3        3250
+4          NA
+5        3450
+6        3650</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb71"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb71-1"><a href="#cb71-1"></a><span class="co"># Sort the penguins from smallest to largest body mass</span></span>
+<span id="cb71-2"><a href="#cb71-2"></a><span class="co"># Show just the first 6 rows</span></span>
+<span id="cb71-3"><a href="#cb71-3"></a>penguins <span class="sc">|&gt;</span> </span>
+<span id="cb71-4"><a href="#cb71-4"></a>  <span class="fu">arrange</span>(body_mass_g) <span class="sc">|&gt;</span> </span>
+<span id="cb71-5"><a href="#cb71-5"></a>  <span class="fu">head</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 8
+  species   island    bill_length_mm bill_depth_mm flipper_length_mm body_mass_g
+  &lt;chr&gt;     &lt;chr&gt;              &lt;dbl&gt;         &lt;dbl&gt;             &lt;dbl&gt;       &lt;dbl&gt;
+1 Chinstrap Dream               46.9          16.6               192        2700
+2 Adelie    Biscoe              36.5          16.6               181        2850
+3 Adelie    Biscoe              36.4          17.1               184        2850
+4 Adelie    Biscoe              34.5          18.1               187        2900
+5 Adelie    Dream               33.1          16.1               178        2900
+6 Adelie    Torgersen           38.6          17                 188        2900
+# ℹ 2 more variables: sex &lt;chr&gt;, year &lt;dbl&gt;</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb73"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb73-1"><a href="#cb73-1"></a><span class="co"># Calculate the average body mass across all penguins</span></span>
+<span id="cb73-2"><a href="#cb73-2"></a><span class="co"># Note: na.rm = TRUE removes the NAs from the calculation</span></span>
+<span id="cb73-3"><a href="#cb73-3"></a>penguins <span class="sc">|&gt;</span> </span>
+<span id="cb73-4"><a href="#cb73-4"></a>  <span class="fu">summarize</span>(<span class="at">mean =</span> <span class="fu">mean</span>(body_mass_g, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 1
+   mean
+  &lt;dbl&gt;
+1 4202.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb75"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb75-1"><a href="#cb75-1"></a><span class="co"># Calculate the average body mass by species</span></span>
+<span id="cb75-2"><a href="#cb75-2"></a>penguins <span class="sc">|&gt;</span> </span>
+<span id="cb75-3"><a href="#cb75-3"></a>  <span class="fu">group_by</span>(species) <span class="sc">|&gt;</span> </span>
+<span id="cb75-4"><a href="#cb75-4"></a>  <span class="fu">summarize</span>(<span class="at">mean =</span> <span class="fu">mean</span>(body_mass_g, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 2
+  species    mean
+  &lt;chr&gt;     &lt;dbl&gt;
+1 Adelie    3701.
+2 Chinstrap 3733.
+3 Gentoo    5076.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb77"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb77-1"><a href="#cb77-1"></a><span class="co"># Create a new column that records body mass in kilograms, not grams</span></span>
+<span id="cb77-2"><a href="#cb77-2"></a><span class="co"># </span><span class="al">NOTE</span><span class="co">: there are 1000 g in 1 kg</span></span>
+<span id="cb77-3"><a href="#cb77-3"></a><span class="co"># Show just the first 6 rows</span></span>
+<span id="cb77-4"><a href="#cb77-4"></a>penguins <span class="sc">|&gt;</span> </span>
+<span id="cb77-5"><a href="#cb77-5"></a>  <span class="fu">mutate</span>(<span class="at">body_mass_kg =</span> body_mass_g<span class="sc">/</span><span class="dv">1000</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb77-6"><a href="#cb77-6"></a>  <span class="fu">head</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 9
+  species island    bill_length_mm bill_depth_mm flipper_length_mm body_mass_g
+  &lt;chr&gt;   &lt;chr&gt;              &lt;dbl&gt;         &lt;dbl&gt;             &lt;dbl&gt;       &lt;dbl&gt;
+1 Adelie  Torgersen           39.1          18.7               181        3750
+2 Adelie  Torgersen           39.5          17.4               186        3800
+3 Adelie  Torgersen           40.3          18                 195        3250
+4 Adelie  Torgersen           NA            NA                  NA          NA
+5 Adelie  Torgersen           36.7          19.3               193        3450
+6 Adelie  Torgersen           39.3          20.6               190        3650
+# ℹ 3 more variables: sex &lt;chr&gt;, year &lt;dbl&gt;, body_mass_kg &lt;dbl&gt;</code></pre>
+</div>
+</div>
+<p><br>
+<br>
+<br>
+<br>
+</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb79"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb79-1"><a href="#cb79-1"></a><span class="fu">ggplot</span>(penguins, <span class="fu">aes</span>(<span class="at">x =</span> species)) <span class="sc">+</span> </span>
+<span id="cb79-2"><a href="#cb79-2"></a>  <span class="fu">geom_bar</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Wrangling-Practice_files/figure-html/unnamed-chunk-43-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode cell-code" id="cb80"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb80-1"><a href="#cb80-1"></a>penguins <span class="sc">|&gt;</span> </span>
+<span id="cb80-2"><a href="#cb80-2"></a>  <span class="fu">group_by</span>(species) <span class="sc">|&gt;</span> </span>
+<span id="cb80-3"><a href="#cb80-3"></a>  <span class="fu">summarize</span>(<span class="fu">n</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 2
+  species   `n()`
+  &lt;chr&gt;     &lt;int&gt;
+1 Adelie      152
+2 Chinstrap    68
+3 Gentoo      124</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb82"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb82-1"><a href="#cb82-1"></a>penguins <span class="sc">|&gt;</span> </span>
+<span id="cb82-2"><a href="#cb82-2"></a>  <span class="fu">count</span>(species)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 2
+  species       n
+  &lt;chr&gt;     &lt;int&gt;
+1 Adelie      152
+2 Chinstrap    68
+3 Gentoo      124</code></pre>
+</div>
+</div>
+</section>
+<section id="example-2-multiple-verbs-1" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="example-2-multiple-verbs-1">Example 2: Multiple Verbs</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb84"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb84-1"><a href="#cb84-1"></a><span class="co"># Sort Gentoo penguins from biggest to smallest with respect to their </span></span>
+<span id="cb84-2"><a href="#cb84-2"></a><span class="co"># bill length in cm (there are 10 mm in a cm)</span></span>
+<span id="cb84-3"><a href="#cb84-3"></a>penguins <span class="sc">|&gt;</span> </span>
+<span id="cb84-4"><a href="#cb84-4"></a>  <span class="fu">filter</span>(species <span class="sc">==</span> <span class="st">"Gentoo"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb84-5"><a href="#cb84-5"></a>  <span class="fu">mutate</span>(<span class="at">bill_length_cm =</span> bill_length_mm <span class="sc">/</span> <span class="dv">10</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb84-6"><a href="#cb84-6"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(bill_length_cm))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 124 × 9
+   species island bill_length_mm bill_depth_mm flipper_length_mm body_mass_g
+   &lt;chr&gt;   &lt;chr&gt;           &lt;dbl&gt;         &lt;dbl&gt;             &lt;dbl&gt;       &lt;dbl&gt;
+ 1 Gentoo  Biscoe           59.6          17                 230        6050
+ 2 Gentoo  Biscoe           55.9          17                 228        5600
+ 3 Gentoo  Biscoe           55.1          16                 230        5850
+ 4 Gentoo  Biscoe           54.3          15.7               231        5650
+ 5 Gentoo  Biscoe           53.4          15.8               219        5500
+ 6 Gentoo  Biscoe           52.5          15.6               221        5450
+ 7 Gentoo  Biscoe           52.2          17.1               228        5400
+ 8 Gentoo  Biscoe           52.1          17                 230        5550
+ 9 Gentoo  Biscoe           51.5          16.3               230        5500
+10 Gentoo  Biscoe           51.3          14.2               218        5300
+# ℹ 114 more rows
+# ℹ 3 more variables: sex &lt;chr&gt;, year &lt;dbl&gt;, bill_length_cm &lt;dbl&gt;</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb86"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb86-1"><a href="#cb86-1"></a><span class="co"># Sort the species from smallest to biggest with respect to their </span></span>
+<span id="cb86-2"><a href="#cb86-2"></a><span class="co"># average bill length in cm</span></span>
+<span id="cb86-3"><a href="#cb86-3"></a>penguins <span class="sc">|&gt;</span> </span>
+<span id="cb86-4"><a href="#cb86-4"></a>  <span class="fu">mutate</span>(<span class="at">bill_length_cm =</span> bill_length_mm <span class="sc">/</span> <span class="dv">10</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb86-5"><a href="#cb86-5"></a>  <span class="fu">group_by</span>(species) <span class="sc">|&gt;</span> </span>
+<span id="cb86-6"><a href="#cb86-6"></a>  <span class="fu">summarize</span>(<span class="at">mean_bill_length =</span> <span class="fu">mean</span>(bill_length_cm, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb86-7"><a href="#cb86-7"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(mean_bill_length))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 2
+  species   mean_bill_length
+  &lt;chr&gt;                &lt;dbl&gt;
+1 Chinstrap             4.88
+2 Gentoo                4.75
+3 Adelie                3.88</code></pre>
+</div>
+</div>
+</section>
+<section id="example-3-interpret-code-1" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="example-3-interpret-code-1">Example 3: Interpret Code</h3>
+</section>
+<section id="exercise-1-more-filtering-1" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="exercise-1-more-filtering-1">Exercise 1: More Filtering</h3>
+<section id="part-a-3" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="part-a-3">Part a</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb88"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb88-1"><a href="#cb88-1"></a><span class="co"># Create a dataset with just Adelie and Chinstrap using %in%</span></span>
+<span id="cb88-2"><a href="#cb88-2"></a><span class="co"># Pipe this into `count(species)` to confirm that you only have these 2 species</span></span>
+<span id="cb88-3"><a href="#cb88-3"></a>penguins <span class="sc">|&gt;</span></span>
+<span id="cb88-4"><a href="#cb88-4"></a>  <span class="fu">filter</span>(species <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Adelie"</span>, <span class="st">"Chinstrap"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb88-5"><a href="#cb88-5"></a>  <span class="fu">count</span>(species)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2 × 2
+  species       n
+  &lt;chr&gt;     &lt;int&gt;
+1 Adelie      152
+2 Chinstrap    68</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb90"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb90-1"><a href="#cb90-1"></a><span class="co"># Create a dataset with just Adelie and Chinstrap using !=</span></span>
+<span id="cb90-2"><a href="#cb90-2"></a><span class="co"># Pipe this into `count(species)` to confirm that you only have these 2 species</span></span>
+<span id="cb90-3"><a href="#cb90-3"></a>penguins <span class="sc">|&gt;</span></span>
+<span id="cb90-4"><a href="#cb90-4"></a>  <span class="fu">filter</span>(species <span class="sc">!=</span> <span class="st">"Gentoo"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb90-5"><a href="#cb90-5"></a>  <span class="fu">count</span>(species)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2 × 2
+  species       n
+  &lt;chr&gt;     &lt;int&gt;
+1 Adelie      152
+2 Chinstrap    68</code></pre>
+</div>
+</div>
+</section>
+<section id="part-b-3" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="part-b-3">Part b</h4>
+</section>
+<section id="part-c-2" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="part-c-2">Part c</h4>
+<p>It might get rid of data points even if they have complete information on the variables we need, just because they’re missing info on variables we don’t need.</p>
+</section>
+</section>
+<section id="exercise-2-more-selecting-1" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="exercise-2-more-selecting-1">Exercise 2: More selecting</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb92"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb92-1"><a href="#cb92-1"></a><span class="co"># First: recall the variable names</span></span>
+<span id="cb92-2"><a href="#cb92-2"></a><span class="fu">names</span>(penguins)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "species"           "island"            "bill_length_mm"   
+[4] "bill_depth_mm"     "flipper_length_mm" "body_mass_g"      
+[7] "sex"               "year"             </code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb94"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb94-1"><a href="#cb94-1"></a><span class="co"># Use a shortcut to keep everything but the year and island variables</span></span>
+<span id="cb94-2"><a href="#cb94-2"></a>penguins <span class="sc">|&gt;</span> </span>
+<span id="cb94-3"><a href="#cb94-3"></a>  <span class="fu">select</span>(<span class="sc">-</span>year, <span class="sc">-</span>island)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 344 × 6
+   species bill_length_mm bill_depth_mm flipper_length_mm body_mass_g sex   
+   &lt;chr&gt;            &lt;dbl&gt;         &lt;dbl&gt;             &lt;dbl&gt;       &lt;dbl&gt; &lt;chr&gt; 
+ 1 Adelie            39.1          18.7               181        3750 male  
+ 2 Adelie            39.5          17.4               186        3800 female
+ 3 Adelie            40.3          18                 195        3250 female
+ 4 Adelie            NA            NA                  NA          NA &lt;NA&gt;  
+ 5 Adelie            36.7          19.3               193        3450 female
+ 6 Adelie            39.3          20.6               190        3650 male  
+ 7 Adelie            38.9          17.8               181        3625 female
+ 8 Adelie            39.2          19.6               195        4675 male  
+ 9 Adelie            34.1          18.1               193        3475 &lt;NA&gt;  
+10 Adelie            42            20.2               190        4250 &lt;NA&gt;  
+# ℹ 334 more rows</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb96"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb96-1"><a href="#cb96-1"></a><span class="co"># Use a shortcut to keep only species and the penguin characteristics measured in mm</span></span>
+<span id="cb96-2"><a href="#cb96-2"></a>penguins <span class="sc">|&gt;</span> </span>
+<span id="cb96-3"><a href="#cb96-3"></a>  <span class="fu">select</span>(species, <span class="fu">ends_with</span>(<span class="st">"mm"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 344 × 4
+   species bill_length_mm bill_depth_mm flipper_length_mm
+   &lt;chr&gt;            &lt;dbl&gt;         &lt;dbl&gt;             &lt;dbl&gt;
+ 1 Adelie            39.1          18.7               181
+ 2 Adelie            39.5          17.4               186
+ 3 Adelie            40.3          18                 195
+ 4 Adelie            NA            NA                  NA
+ 5 Adelie            36.7          19.3               193
+ 6 Adelie            39.3          20.6               190
+ 7 Adelie            38.9          17.8               181
+ 8 Adelie            39.2          19.6               195
+ 9 Adelie            34.1          18.1               193
+10 Adelie            42            20.2               190
+# ℹ 334 more rows</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb98"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb98-1"><a href="#cb98-1"></a><span class="co"># Use a shortcut to keep only species and bill-related measurements</span></span>
+<span id="cb98-2"><a href="#cb98-2"></a>penguins <span class="sc">|&gt;</span> </span>
+<span id="cb98-3"><a href="#cb98-3"></a>  <span class="fu">select</span>(species, <span class="fu">starts_with</span>(<span class="st">"bill"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 344 × 3
+   species bill_length_mm bill_depth_mm
+   &lt;chr&gt;            &lt;dbl&gt;         &lt;dbl&gt;
+ 1 Adelie            39.1          18.7
+ 2 Adelie            39.5          17.4
+ 3 Adelie            40.3          18  
+ 4 Adelie            NA            NA  
+ 5 Adelie            36.7          19.3
+ 6 Adelie            39.3          20.6
+ 7 Adelie            38.9          17.8
+ 8 Adelie            39.2          19.6
+ 9 Adelie            34.1          18.1
+10 Adelie            42            20.2
+# ℹ 334 more rows</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb100"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb100-1"><a href="#cb100-1"></a><span class="co"># Use a shortcut to keep only species and the length-related characteristics</span></span>
+<span id="cb100-2"><a href="#cb100-2"></a>penguins <span class="sc">|&gt;</span> </span>
+<span id="cb100-3"><a href="#cb100-3"></a>  <span class="fu">select</span>(species, <span class="fu">contains</span>(<span class="st">"length"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 344 × 3
+   species bill_length_mm flipper_length_mm
+   &lt;chr&gt;            &lt;dbl&gt;             &lt;dbl&gt;
+ 1 Adelie            39.1               181
+ 2 Adelie            39.5               186
+ 3 Adelie            40.3               195
+ 4 Adelie            NA                  NA
+ 5 Adelie            36.7               193
+ 6 Adelie            39.3               190
+ 7 Adelie            38.9               181
+ 8 Adelie            39.2               195
+ 9 Adelie            34.1               193
+10 Adelie            42                 190
+# ℹ 334 more rows</code></pre>
+</div>
+</div>
+</section>
+<section id="exercise-3-arranging-counting-grouping-by-multiple-variables-1" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="exercise-3-arranging-counting-grouping-by-multiple-variables-1">Exercise 3: Arranging, counting, &amp; grouping by multiple variables</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb102"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb102-1"><a href="#cb102-1"></a><span class="co"># Change this code to sort the penguins by species, and then island name</span></span>
+<span id="cb102-2"><a href="#cb102-2"></a><span class="co"># </span><span class="al">NOTE</span><span class="co">: The first row should be an Adelie penguin living on Biscoe island</span></span>
+<span id="cb102-3"><a href="#cb102-3"></a>penguins <span class="sc">|&gt;</span> </span>
+<span id="cb102-4"><a href="#cb102-4"></a>  <span class="fu">arrange</span>(species, island) <span class="sc">|&gt;</span> </span>
+<span id="cb102-5"><a href="#cb102-5"></a>  <span class="fu">head</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 8
+  species island bill_length_mm bill_depth_mm flipper_length_mm body_mass_g
+  &lt;chr&gt;   &lt;chr&gt;           &lt;dbl&gt;         &lt;dbl&gt;             &lt;dbl&gt;       &lt;dbl&gt;
+1 Adelie  Biscoe           37.8          18.3               174        3400
+2 Adelie  Biscoe           37.7          18.7               180        3600
+3 Adelie  Biscoe           35.9          19.2               189        3800
+4 Adelie  Biscoe           38.2          18.1               185        3950
+5 Adelie  Biscoe           38.8          17.2               180        3800
+6 Adelie  Biscoe           35.3          18.9               187        3800
+# ℹ 2 more variables: sex &lt;chr&gt;, year &lt;dbl&gt;</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb104"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb104-1"><a href="#cb104-1"></a><span class="co"># Change this code to count the number of male/female penguins observed for each species</span></span>
+<span id="cb104-2"><a href="#cb104-2"></a>penguins <span class="sc">|&gt;</span> </span>
+<span id="cb104-3"><a href="#cb104-3"></a>  <span class="fu">count</span>(species, sex)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 8 × 3
+  species   sex        n
+  &lt;chr&gt;     &lt;chr&gt;  &lt;int&gt;
+1 Adelie    female    73
+2 Adelie    male      73
+3 Adelie    &lt;NA&gt;       6
+4 Chinstrap female    34
+5 Chinstrap male      34
+6 Gentoo    female    58
+7 Gentoo    male      61
+8 Gentoo    &lt;NA&gt;       5</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb106"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb106-1"><a href="#cb106-1"></a><span class="co"># Change this code to calculate the average body mass by species and sex</span></span>
+<span id="cb106-2"><a href="#cb106-2"></a>penguins <span class="sc">|&gt;</span> </span>
+<span id="cb106-3"><a href="#cb106-3"></a>  <span class="fu">group_by</span>(species, sex) <span class="sc">|&gt;</span> </span>
+<span id="cb106-4"><a href="#cb106-4"></a>  <span class="fu">summarize</span>(<span class="at">mean =</span> <span class="fu">mean</span>(body_mass_g, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 8 × 3
+# Groups:   species [3]
+  species   sex     mean
+  &lt;chr&gt;     &lt;chr&gt;  &lt;dbl&gt;
+1 Adelie    female 3369.
+2 Adelie    male   4043.
+3 Adelie    &lt;NA&gt;   3540 
+4 Chinstrap female 3527.
+5 Chinstrap male   3939.
+6 Gentoo    female 4680.
+7 Gentoo    male   5485.
+8 Gentoo    &lt;NA&gt;   4588.</code></pre>
+</div>
+</div>
+</section>
+<section id="exercise-4-dates-1" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="exercise-4-dates-1">Exercise 4: Dates</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb108"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb108-1"><a href="#cb108-1"></a><span class="co"># Get today's date</span></span>
+<span id="cb108-2"><a href="#cb108-2"></a><span class="fu">as.Date</span>(<span class="fu">today</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "2024-10-04"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb110"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb110-1"><a href="#cb110-1"></a><span class="co"># Let's store this as "today" so we can work with it below</span></span>
+<span id="cb110-2"><a href="#cb110-2"></a>today <span class="ot">&lt;-</span> <span class="fu">as.Date</span>(<span class="fu">today</span>())</span>
+<span id="cb110-3"><a href="#cb110-3"></a></span>
+<span id="cb110-4"><a href="#cb110-4"></a><span class="co"># Check out the class of this object</span></span>
+<span id="cb110-5"><a href="#cb110-5"></a><span class="fu">class</span>(today)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "Date"</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb112"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb112-1"><a href="#cb112-1"></a><span class="co"># Records just the 4-digit year</span></span>
+<span id="cb112-2"><a href="#cb112-2"></a><span class="fu">year</span>(today)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 2024</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb114"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb114-1"><a href="#cb114-1"></a><span class="co"># Today's month, as a number or label</span></span>
+<span id="cb114-2"><a href="#cb114-2"></a><span class="fu">month</span>(today)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 10</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb116"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb116-1"><a href="#cb116-1"></a><span class="fu">month</span>(today, <span class="at">label =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] Oct
+12 Levels: Jan &lt; Feb &lt; Mar &lt; Apr &lt; May &lt; Jun &lt; Jul &lt; Aug &lt; Sep &lt; ... &lt; Dec</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb118"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb118-1"><a href="#cb118-1"></a><span class="co"># This is the week of the year (1-52)</span></span>
+<span id="cb118-2"><a href="#cb118-2"></a><span class="fu">week</span>(today)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 40</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb120"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb120-1"><a href="#cb120-1"></a><span class="co"># Day of the month (1-31) and day of the year (1-366)</span></span>
+<span id="cb120-2"><a href="#cb120-2"></a><span class="fu">mday</span>(today)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 4</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb122"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb122-1"><a href="#cb122-1"></a><span class="fu">yday</span>(today)  <span class="co"># This is often called the "Julian day"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 278</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb124"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb124-1"><a href="#cb124-1"></a><span class="co"># Day of the week as a number or label</span></span>
+<span id="cb124-2"><a href="#cb124-2"></a><span class="fu">wday</span>(today)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 6</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb126"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb126-1"><a href="#cb126-1"></a><span class="fu">wday</span>(today, <span class="at">label =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] Fri
+Levels: Sun &lt; Mon &lt; Tue &lt; Wed &lt; Thu &lt; Fri &lt; Sat</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb128"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb128-1"><a href="#cb128-1"></a><span class="co"># today is on or after Feb 14, 2024</span></span>
+<span id="cb128-2"><a href="#cb128-2"></a>today <span class="sc">&gt;=</span> <span class="fu">ymd</span>(<span class="st">"2024-02-14"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] TRUE</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb130"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb130-1"><a href="#cb130-1"></a><span class="co"># today is not before Feb 14, 2024</span></span>
+<span id="cb130-2"><a href="#cb130-2"></a>today <span class="sc">&lt;</span> <span class="fu">ymd</span>(<span class="st">"2024-02-14"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] FALSE</code></pre>
+</div>
+</div>
+</section></details>
+
+
+<!-- -->
+
+</section>
+
+<section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn1"><p>The <code>fivethirtyeight</code> package has more recent data.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  const viewSource = window.document.getElementById('quarto-view-source') ||
+                     window.document.getElementById('quarto-code-tools-source');
+  if (viewSource) {
+    const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+    viewSource.addEventListener("click", function(e) {
+      if (sourceUrl) {
+        // rstudio viewer pane
+        if (/\bcapabilities=\b/.test(window.location)) {
+          window.open(sourceUrl);
+        } else {
+          window.location.href = sourceUrl;
+        }
+      } else {
+        const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+        modal.show();
+      }
+      return false;
+    });
+  }
+  function toggleCodeHandler(show) {
+    return function(e) {
+      const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
+      for (let i=0; i<detailsSrc.length; i++) {
+        const details = detailsSrc[i].parentElement;
+        if (show) {
+          details.open = true;
+        } else {
+          details.removeAttribute("open");
+        }
+      }
+      const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
+      const fromCls = show ? "hidden" : "unhidden";
+      const toCls = show ? "unhidden" : "hidden";
+      for (let i=0; i<cellCodeDivs.length; i++) {
+        const codeDiv = cellCodeDivs[i];
+        if (codeDiv.classList.contains(fromCls)) {
+          codeDiv.classList.remove(fromCls);
+          codeDiv.classList.add(toCls);
+        } 
+      }
+      return false;
+    }
+  }
+  const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+  if (hideAllCode) {
+    hideAllCode.addEventListener("click", toggleCodeHandler(false));
+  }
+  const showAllCode = window.document.getElementById("quarto-show-all-code");
+  if (showAllCode) {
+    showAllCode.addEventListener("click", toggleCodeHandler(true));
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../activities/Wrangle-Verb.html" class="pagination-link" aria-label="Wrangling Verbs">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Wrangling Verbs</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../notes/README.html" class="pagination-link" aria-label="Notes">
+        <span class="nav-page-text">Notes</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
+<div class="sourceCode" id="cb132" data-shortcodes="false"><pre class="sourceCode numberSource markdown number-lines code-with-copy"><code class="sourceCode markdown"><span id="cb132-1"><a href="#cb132-1"></a><span class="co">---</span></span>
+<span id="cb132-2"><a href="#cb132-2"></a><span class="an">title:</span><span class="co"> "Wrangling Practice"</span></span>
+<span id="cb132-3"><a href="#cb132-3"></a><span class="an">number-sections:</span><span class="co"> true</span></span>
+<span id="cb132-4"><a href="#cb132-4"></a><span class="an">execute:</span><span class="co"> </span></span>
+<span id="cb132-5"><a href="#cb132-5"></a><span class="co">  warning: false</span></span>
+<span id="cb132-6"><a href="#cb132-6"></a><span class="an">fig-env:</span><span class="co"> 'figure'</span></span>
+<span id="cb132-7"><a href="#cb132-7"></a><span class="an">fig-pos:</span><span class="co"> 'h'</span></span>
+<span id="cb132-8"><a href="#cb132-8"></a><span class="an">fig-align:</span><span class="co"> center</span></span>
+<span id="cb132-9"><a href="#cb132-9"></a><span class="an">code-fold:</span><span class="co"> false</span></span>
+<span id="cb132-10"><a href="#cb132-10"></a><span class="co">---</span></span>
+<span id="cb132-11"><a href="#cb132-11"></a></span>
+<span id="cb132-12"><a href="#cb132-12"></a>::: {.callout-caution title="Learning Goals"}</span>
+<span id="cb132-13"><a href="#cb132-13"></a><span class="ss">-   </span>Review wrangling verbs <span class="in">`select`</span>, <span class="in">`mutate`</span>, <span class="in">`filter`</span>, <span class="in">`arrange`</span>, <span class="in">`summarize`</span>, <span class="in">`group_by`</span></span>
+<span id="cb132-14"><a href="#cb132-14"></a><span class="ss">-   </span>Form conceptual understanding of code without running it</span>
+<span id="cb132-15"><a href="#cb132-15"></a><span class="ss">-   </span>Practice using wrangling verbs in different way</span>
+<span id="cb132-16"><a href="#cb132-16"></a><span class="ss">-   </span>Practice dealing with dates using <span class="in">`lubridate`</span> functions</span>
+<span id="cb132-17"><a href="#cb132-17"></a>:::</span>
+<span id="cb132-18"><a href="#cb132-18"></a></span>
+<span id="cb132-19"><a href="#cb132-19"></a>::: {.callout-note title="Additional Resources"}</span>
+<span id="cb132-20"><a href="#cb132-20"></a>For more information about the topics covered in this chapter, refer to the resources below:</span>
+<span id="cb132-21"><a href="#cb132-21"></a></span>
+<span id="cb132-22"><a href="#cb132-22"></a><span class="ss">-   </span><span class="co">[</span><span class="ot">Date and Times (html)</span><span class="co">](https://r4ds.hadley.nz/datetimes)</span> by Wickham, Çetinkaya-Rundel, &amp; Grolemund </span>
+<span id="cb132-23"><a href="#cb132-23"></a>:::</span>
+<span id="cb132-24"><a href="#cb132-24"></a></span>
+<span id="cb132-25"><a href="#cb132-25"></a>Today In class we practiced wrangling verbs. I think I am starting to understand it a little bit more. I do find it a little confusing still because it almost feels as if I am learning a new language.</span>
+<span id="cb132-26"><a href="#cb132-26"></a></span>
+<span id="cb132-27"><a href="#cb132-27"></a></span>
+<span id="cb132-28"><a href="#cb132-28"></a><span class="fu">## Warm-up</span></span>
+<span id="cb132-29"><a href="#cb132-29"></a></span>
+<span id="cb132-30"><a href="#cb132-30"></a></span>
+<span id="cb132-31"><a href="#cb132-31"></a><span class="fu">### Data Science Process {-}</span></span>
+<span id="cb132-32"><a href="#cb132-32"></a></span>
+<span id="cb132-33"><a href="#cb132-33"></a>Below is the visual representation of the data science process we saw earlier.  Which stage are we in currently? </span>
+<span id="cb132-34"><a href="#cb132-34"></a></span>
+<span id="cb132-35"><a href="#cb132-35"></a><span class="al">![](https://mac-stat.github.io/images/112/legos.png)</span></span>
+<span id="cb132-36"><a href="#cb132-36"></a></span>
+<span id="cb132-37"><a href="#cb132-37"></a></span>
+<span id="cb132-38"><a href="#cb132-38"></a>Recall that wrangling is important. It is much of what we spend our efforts on in Data Science. There are lots of steps, hence R functions, that can go into data wrangling. But we can get far with the following 6 *wrangling verbs*:</span>
+<span id="cb132-39"><a href="#cb132-39"></a></span>
+<span id="cb132-40"><a href="#cb132-40"></a>| verb        | action                                            |</span>
+<span id="cb132-41"><a href="#cb132-41"></a>|:------------|:--------------------------------------------------|</span>
+<span id="cb132-42"><a href="#cb132-42"></a>| <span class="in">`arrange`</span>   | **arrange** the *rows* according to some *column* |</span>
+<span id="cb132-43"><a href="#cb132-43"></a>| <span class="in">`filter`</span>    | **filter** out or obtain a subset of the *rows*   |</span>
+<span id="cb132-44"><a href="#cb132-44"></a>| <span class="in">`select`</span>    | **select** a subset of *columns*                  |</span>
+<span id="cb132-45"><a href="#cb132-45"></a>| <span class="in">`mutate`</span>    | **mutate** or create a *column*                   |</span>
+<span id="cb132-46"><a href="#cb132-46"></a>| <span class="in">`summarize`</span> | calculate a numerical **summary** of a *column*   |</span>
+<span id="cb132-47"><a href="#cb132-47"></a>| <span class="in">`group_by`</span>  | **group** the *rows* by a specified *column*      |</span>
+<span id="cb132-48"><a href="#cb132-48"></a></span>
+<span id="cb132-49"><a href="#cb132-49"></a><span class="fu">### Example 1: Single Verb {-}</span></span>
+<span id="cb132-50"><a href="#cb132-50"></a></span>
+<span id="cb132-51"><a href="#cb132-51"></a>Let's start by working with some TidyTuesday data on penguins. This data includes information about penguins' flippers ("arms") and bills ("mouths" or "beaks").  Let's import this using <span class="in">`read_csv()`</span>, a function in the <span class="in">`tidyverse`</span> package. For the most part, this is similar to <span class="in">`read.csv()`</span>, though <span class="in">`read_csv()`</span> can be more efficient at importing large datasets.</span>
+<span id="cb132-52"><a href="#cb132-52"></a></span>
+<span id="cb132-55"><a href="#cb132-55"></a><span class="in">```{r}</span></span>
+<span id="cb132-56"><a href="#cb132-56"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb132-57"><a href="#cb132-57"></a>penguins <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">'https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-07-28/penguins.csv'</span>)</span>
+<span id="cb132-58"><a href="#cb132-58"></a></span>
+<span id="cb132-59"><a href="#cb132-59"></a><span class="co"># Check it out</span></span>
+<span id="cb132-60"><a href="#cb132-60"></a><span class="fu">head</span>(penguins)</span>
+<span id="cb132-61"><a href="#cb132-61"></a><span class="in">```</span></span>
+<span id="cb132-62"><a href="#cb132-62"></a></span>
+<span id="cb132-63"><a href="#cb132-63"></a>::: {.callout-warning title="Check Understanding"}</span>
+<span id="cb132-64"><a href="#cb132-64"></a></span>
+<span id="cb132-65"><a href="#cb132-65"></a>Construct a plot that allows us to examine how the relationship between body mass and bill length varies by species and sex.</span>
+<span id="cb132-66"><a href="#cb132-66"></a></span>
+<span id="cb132-67"><a href="#cb132-67"></a>:::</span>
+<span id="cb132-68"><a href="#cb132-68"></a></span>
+<span id="cb132-71"><a href="#cb132-71"></a><span class="in">```{r}</span></span>
+<span id="cb132-72"><a href="#cb132-72"></a><span class="in">```</span></span>
+<span id="cb132-73"><a href="#cb132-73"></a></span>
+<span id="cb132-74"><a href="#cb132-74"></a></span>
+<span id="cb132-75"><a href="#cb132-75"></a></span>
+<span id="cb132-76"><a href="#cb132-76"></a>::: {.callout-warning title="Check Understanding"}</span>
+<span id="cb132-77"><a href="#cb132-77"></a></span>
+<span id="cb132-78"><a href="#cb132-78"></a>Use the 6 wrangling verbs to address each task in the code chunk below.  You can tack on <span class="in">`|&gt; head()`</span> to print out just 6 rows to keep your rendered document manageable. Most of these require just 1 verb.</span>
+<span id="cb132-79"><a href="#cb132-79"></a></span>
+<span id="cb132-80"><a href="#cb132-80"></a>:::</span>
+<span id="cb132-81"><a href="#cb132-81"></a></span>
+<span id="cb132-84"><a href="#cb132-84"></a><span class="in">```{r}</span></span>
+<span id="cb132-85"><a href="#cb132-85"></a><span class="co"># Get data on only Adelie penguins that weigh more than 4700g</span></span>
+<span id="cb132-86"><a href="#cb132-86"></a></span>
+<span id="cb132-87"><a href="#cb132-87"></a></span>
+<span id="cb132-88"><a href="#cb132-88"></a><span class="co"># Get data on penguin body mass only</span></span>
+<span id="cb132-89"><a href="#cb132-89"></a><span class="co"># Show just the first 6 rows</span></span>
+<span id="cb132-90"><a href="#cb132-90"></a></span>
+<span id="cb132-91"><a href="#cb132-91"></a></span>
+<span id="cb132-92"><a href="#cb132-92"></a><span class="co"># Sort the penguins from smallest to largest body mass</span></span>
+<span id="cb132-93"><a href="#cb132-93"></a><span class="co"># Show just the first 6 rows</span></span>
+<span id="cb132-94"><a href="#cb132-94"></a></span>
+<span id="cb132-95"><a href="#cb132-95"></a></span>
+<span id="cb132-96"><a href="#cb132-96"></a></span>
+<span id="cb132-97"><a href="#cb132-97"></a><span class="co"># Calculate the average body mass across all penguins</span></span>
+<span id="cb132-98"><a href="#cb132-98"></a><span class="co"># Note: na.rm = TRUE removes the NAs from the calculation</span></span>
+<span id="cb132-99"><a href="#cb132-99"></a></span>
+<span id="cb132-100"><a href="#cb132-100"></a></span>
+<span id="cb132-101"><a href="#cb132-101"></a></span>
+<span id="cb132-102"><a href="#cb132-102"></a><span class="co"># Calculate the average body mass by species</span></span>
+<span id="cb132-103"><a href="#cb132-103"></a></span>
+<span id="cb132-104"><a href="#cb132-104"></a></span>
+<span id="cb132-105"><a href="#cb132-105"></a></span>
+<span id="cb132-106"><a href="#cb132-106"></a><span class="co"># Create a new column that records body mass in kilograms, not grams</span></span>
+<span id="cb132-107"><a href="#cb132-107"></a><span class="co"># </span><span class="al">NOTE</span><span class="co">: there are 1000 g in 1 kg</span></span>
+<span id="cb132-108"><a href="#cb132-108"></a><span class="co"># Show just the first 6 rows</span></span>
+<span id="cb132-109"><a href="#cb132-109"></a></span>
+<span id="cb132-110"><a href="#cb132-110"></a></span>
+<span id="cb132-111"><a href="#cb132-111"></a><span class="in">```</span></span>
+<span id="cb132-112"><a href="#cb132-112"></a></span>
+<span id="cb132-113"><a href="#cb132-113"></a></span>
+<span id="cb132-114"><a href="#cb132-114"></a>::: {.callout-warning title="Check Understanding"}</span>
+<span id="cb132-115"><a href="#cb132-115"></a></span>
+<span id="cb132-116"><a href="#cb132-116"></a>How many penguins of each species do we have? Create a viz that addresses this question.</span>
+<span id="cb132-117"><a href="#cb132-117"></a></span>
+<span id="cb132-118"><a href="#cb132-118"></a></span>
+<span id="cb132-119"><a href="#cb132-119"></a>:::</span>
+<span id="cb132-120"><a href="#cb132-120"></a></span>
+<span id="cb132-121"><a href="#cb132-121"></a></span>
+<span id="cb132-124"><a href="#cb132-124"></a><span class="in">```{r}</span></span>
+<span id="cb132-125"><a href="#cb132-125"></a><span class="fu">ggplot</span>(penguins, <span class="fu">aes</span>(<span class="at">x =</span> species))</span>
+<span id="cb132-126"><a href="#cb132-126"></a><span class="in">```</span></span>
+<span id="cb132-127"><a href="#cb132-127"></a></span>
+<span id="cb132-128"><a href="#cb132-128"></a>::: {.callout-warning title="Check Understanding"}</span>
+<span id="cb132-129"><a href="#cb132-129"></a></span>
+<span id="cb132-130"><a href="#cb132-130"></a>Can we use the 6 verbs to calculate exactly how many penguins in each species? </span>
+<span id="cb132-131"><a href="#cb132-131"></a></span>
+<span id="cb132-132"><a href="#cb132-132"></a>HINT: <span class="in">`n()`</span> calculates group size.</span>
+<span id="cb132-133"><a href="#cb132-133"></a></span>
+<span id="cb132-134"><a href="#cb132-134"></a>:::</span>
+<span id="cb132-135"><a href="#cb132-135"></a></span>
+<span id="cb132-138"><a href="#cb132-138"></a><span class="in">```{r}</span></span>
+<span id="cb132-139"><a href="#cb132-139"></a><span class="in">```</span></span>
+<span id="cb132-140"><a href="#cb132-140"></a></span>
+<span id="cb132-141"><a href="#cb132-141"></a></span>
+<span id="cb132-142"><a href="#cb132-142"></a>::: {.callout-tip title="<span class="in">`count`</span> verb"}</span>
+<span id="cb132-143"><a href="#cb132-143"></a>The <span class="in">`count()`</span> verb provides a handy shortcut!</span>
+<span id="cb132-144"><a href="#cb132-144"></a></span>
+<span id="cb132-145"><a href="#cb132-145"></a></span>
+<span id="cb132-146"><a href="#cb132-146"></a></span>
+<span id="cb132-149"><a href="#cb132-149"></a><span class="in">```{r}</span></span>
+<span id="cb132-150"><a href="#cb132-150"></a>penguins <span class="sc">|&gt;</span> </span>
+<span id="cb132-151"><a href="#cb132-151"></a>  <span class="fu">count</span>(species)</span>
+<span id="cb132-152"><a href="#cb132-152"></a><span class="in">```</span></span>
+<span id="cb132-153"><a href="#cb132-153"></a></span>
+<span id="cb132-154"><a href="#cb132-154"></a>:::</span>
+<span id="cb132-155"><a href="#cb132-155"></a></span>
+<span id="cb132-156"><a href="#cb132-156"></a></span>
+<span id="cb132-157"><a href="#cb132-157"></a><span class="fu">### Example 2: Multiple Verbs {-}</span></span>
+<span id="cb132-158"><a href="#cb132-158"></a></span>
+<span id="cb132-159"><a href="#cb132-159"></a>::: {.callout-warning title="Check Understanding"}</span>
+<span id="cb132-160"><a href="#cb132-160"></a></span>
+<span id="cb132-161"><a href="#cb132-161"></a>Let's practice *combining* some verbs. For each task:</span>
+<span id="cb132-162"><a href="#cb132-162"></a></span>
+<span id="cb132-163"><a href="#cb132-163"></a><span class="ss">-   </span>Translate the prompt into our 6 verbs. That is, think before you type.</span>
+<span id="cb132-164"><a href="#cb132-164"></a><span class="ss">-   </span>Build your code line by line. It's important to understand what's being piped into each function!</span>
+<span id="cb132-165"><a href="#cb132-165"></a><span class="ss">-   </span>Ask what you can rearrange and still get the same result.</span>
+<span id="cb132-166"><a href="#cb132-166"></a><span class="ss">-   </span>Read your final code like a paragraph / a conversation. Would another person be able to follow your logic?</span>
+<span id="cb132-167"><a href="#cb132-167"></a></span>
+<span id="cb132-168"><a href="#cb132-168"></a>:::</span>
+<span id="cb132-169"><a href="#cb132-169"></a></span>
+<span id="cb132-172"><a href="#cb132-172"></a><span class="in">```{r}</span></span>
+<span id="cb132-173"><a href="#cb132-173"></a><span class="co"># Sort Gentoo penguins from biggest to smallest with respect to their </span></span>
+<span id="cb132-174"><a href="#cb132-174"></a><span class="co"># bill length in cm (there are 10 mm in a cm)</span></span>
+<span id="cb132-175"><a href="#cb132-175"></a></span>
+<span id="cb132-176"><a href="#cb132-176"></a><span class="in">```</span></span>
+<span id="cb132-177"><a href="#cb132-177"></a></span>
+<span id="cb132-180"><a href="#cb132-180"></a><span class="in">```{r}</span></span>
+<span id="cb132-181"><a href="#cb132-181"></a><span class="co"># Sort the species from smallest to biggest with respect to their </span></span>
+<span id="cb132-182"><a href="#cb132-182"></a><span class="co"># average bill length in cm</span></span>
+<span id="cb132-183"><a href="#cb132-183"></a></span>
+<span id="cb132-184"><a href="#cb132-184"></a><span class="in">```</span></span>
+<span id="cb132-185"><a href="#cb132-185"></a></span>
+<span id="cb132-186"><a href="#cb132-186"></a></span>
+<span id="cb132-187"><a href="#cb132-187"></a></span>
+<span id="cb132-188"><a href="#cb132-188"></a><span class="fu">### Example 3: Interpret Code {-}</span></span>
+<span id="cb132-189"><a href="#cb132-189"></a></span>
+<span id="cb132-190"><a href="#cb132-190"></a>Let's practice reading and making sense of somebody *else*'s code. What do you think this produces?</span>
+<span id="cb132-191"><a href="#cb132-191"></a></span>
+<span id="cb132-192"><a href="#cb132-192"></a><span class="ss">-   </span>How many columns? Rows?</span>
+<span id="cb132-193"><a href="#cb132-193"></a><span class="ss">-   </span>What are the column names?</span>
+<span id="cb132-194"><a href="#cb132-194"></a><span class="ss">-   </span>What's represented in each row?</span>
+<span id="cb132-195"><a href="#cb132-195"></a></span>
+<span id="cb132-196"><a href="#cb132-196"></a>Once you've thought about it, put the code inside a chunk and run it!</span>
+<span id="cb132-197"><a href="#cb132-197"></a></span>
+<span id="cb132-198"><a href="#cb132-198"></a>penguins |<span class="sc">\&gt;</span> filter(species == "Chinstrap") |<span class="sc">\&gt;</span> group_by(sex) |<span class="sc">\&gt;</span> summarize(min = min(body_mass_g), max = max(body_mass_g)) |<span class="sc">\&gt;</span> mutate(range = max - min)</span>
+<span id="cb132-199"><a href="#cb132-199"></a></span>
+<span id="cb132-200"><a href="#cb132-200"></a>\</span>
+<span id="cb132-201"><a href="#cb132-201"></a>\</span>
+<span id="cb132-202"><a href="#cb132-202"></a>\</span>
+<span id="cb132-203"><a href="#cb132-203"></a>\</span>
+<span id="cb132-204"><a href="#cb132-204"></a></span>
+<span id="cb132-205"><a href="#cb132-205"></a><span class="fu">## Exercises Part 1: Same Verbs, New Tricks</span></span>
+<span id="cb132-206"><a href="#cb132-206"></a></span>
+<span id="cb132-207"><a href="#cb132-207"></a></span>
+<span id="cb132-208"><a href="#cb132-208"></a><span class="fu">### Exercise 1: More Filtering {.unnumbered}</span></span>
+<span id="cb132-209"><a href="#cb132-209"></a></span>
+<span id="cb132-210"><a href="#cb132-210"></a>Recall the "logical comparison operators" we can use to <span class="in">`filter()`</span> our data:</span>
+<span id="cb132-211"><a href="#cb132-211"></a></span>
+<span id="cb132-212"><a href="#cb132-212"></a>| symbol           | meaning                   |</span>
+<span id="cb132-213"><a href="#cb132-213"></a>|:-----------------|:--------------------------|</span>
+<span id="cb132-214"><a href="#cb132-214"></a>| <span class="in">`==`</span>               | equal to                  |</span>
+<span id="cb132-215"><a href="#cb132-215"></a>| <span class="in">`!=`</span>               | not equal to              |</span>
+<span id="cb132-216"><a href="#cb132-216"></a>| <span class="in">`&gt;`</span>               | greater than              |</span>
+<span id="cb132-217"><a href="#cb132-217"></a>| <span class="in">`&gt;=`</span>              | greater than or equal to  |</span>
+<span id="cb132-218"><a href="#cb132-218"></a>| <span class="in">`&lt;`</span>               | less than                 |</span>
+<span id="cb132-219"><a href="#cb132-219"></a>| <span class="in">`&lt;=`</span>              | less than or equal to     |</span>
+<span id="cb132-220"><a href="#cb132-220"></a>| <span class="in">`%in% c(***, ***)`</span> | a list of multiple values |</span>
+<span id="cb132-221"><a href="#cb132-221"></a></span>
+<span id="cb132-222"><a href="#cb132-222"></a><span class="fu">#### Part a {.unnumbered}</span></span>
+<span id="cb132-223"><a href="#cb132-223"></a></span>
+<span id="cb132-224"><a href="#cb132-224"></a>::: {.callout-tip title="Commenting/Uncommenting Code"}</span>
+<span id="cb132-225"><a href="#cb132-225"></a></span>
+<span id="cb132-226"><a href="#cb132-226"></a>To comment/uncomment several lines of code at once, highlight them then click &lt;kbd&gt;ctrl/cmd&lt;/kbd&gt;+&lt;kbd&gt;shift&lt;/kbd&gt;+&lt;kbd&gt;c&lt;/kbd&gt;.</span>
+<span id="cb132-227"><a href="#cb132-227"></a></span>
+<span id="cb132-228"><a href="#cb132-228"></a>:::</span>
+<span id="cb132-229"><a href="#cb132-229"></a></span>
+<span id="cb132-232"><a href="#cb132-232"></a><span class="in">```{r}</span></span>
+<span id="cb132-233"><a href="#cb132-233"></a><span class="co"># Create a dataset with just Adelie and Chinstrap using %in%</span></span>
+<span id="cb132-234"><a href="#cb132-234"></a><span class="co"># Pipe this into `count(species)` to confirm that you only have these 2 species</span></span>
+<span id="cb132-235"><a href="#cb132-235"></a><span class="co"># ___ |&gt; </span></span>
+<span id="cb132-236"><a href="#cb132-236"></a><span class="co">#   filter(___) |&gt; </span></span>
+<span id="cb132-237"><a href="#cb132-237"></a><span class="co">#   count(species)</span></span>
+<span id="cb132-238"><a href="#cb132-238"></a><span class="in">```</span></span>
+<span id="cb132-239"><a href="#cb132-239"></a></span>
+<span id="cb132-242"><a href="#cb132-242"></a><span class="in">```{r}</span></span>
+<span id="cb132-243"><a href="#cb132-243"></a><span class="co"># Create a dataset with just Adelie and Chinstrap using !=</span></span>
+<span id="cb132-244"><a href="#cb132-244"></a><span class="co"># Pipe this into `count(species)` to confirm that you only have these 2 species</span></span>
+<span id="cb132-245"><a href="#cb132-245"></a><span class="co"># ___ |&gt; </span></span>
+<span id="cb132-246"><a href="#cb132-246"></a><span class="co">#   filter(___) |&gt; </span></span>
+<span id="cb132-247"><a href="#cb132-247"></a><span class="co">#   count(species)</span></span>
+<span id="cb132-248"><a href="#cb132-248"></a><span class="in">```</span></span>
+<span id="cb132-249"><a href="#cb132-249"></a></span>
+<span id="cb132-250"><a href="#cb132-250"></a><span class="fu">#### Part b {.unnumbered}</span></span>
+<span id="cb132-251"><a href="#cb132-251"></a></span>
+<span id="cb132-252"><a href="#cb132-252"></a>Notice that some of our penguins have missing (<span class="in">`NA`</span>) data on some values:</span>
+<span id="cb132-253"><a href="#cb132-253"></a></span>
+<span id="cb132-256"><a href="#cb132-256"></a><span class="in">```{r}</span></span>
+<span id="cb132-257"><a href="#cb132-257"></a><span class="fu">head</span>(penguins)</span>
+<span id="cb132-258"><a href="#cb132-258"></a><span class="in">```</span></span>
+<span id="cb132-259"><a href="#cb132-259"></a></span>
+<span id="cb132-260"><a href="#cb132-260"></a>::: {.callout-tip title="Handeling <span class="in">`NA`</span> Values"}</span>
+<span id="cb132-261"><a href="#cb132-261"></a></span>
+<span id="cb132-262"><a href="#cb132-262"></a>There are many ways to handle missing data. The right approach depends upon your research goals. A general rule is: Only get rid of observations with missing data if they're missing data on variables you *need* for the specific task at hand!</span>
+<span id="cb132-263"><a href="#cb132-263"></a></span>
+<span id="cb132-264"><a href="#cb132-264"></a>:::</span>
+<span id="cb132-265"><a href="#cb132-265"></a></span>
+<span id="cb132-266"><a href="#cb132-266"></a>**Example 1**</span>
+<span id="cb132-267"><a href="#cb132-267"></a></span>
+<span id="cb132-268"><a href="#cb132-268"></a>Suppose our research focus is *just* on <span class="in">`body_mass_g`</span>. Two penguins are missing this info:</span>
+<span id="cb132-269"><a href="#cb132-269"></a></span>
+<span id="cb132-272"><a href="#cb132-272"></a><span class="in">```{r}</span></span>
+<span id="cb132-273"><a href="#cb132-273"></a><span class="co"># </span><span class="al">NOTE</span><span class="co"> the use of is.na()</span></span>
+<span id="cb132-274"><a href="#cb132-274"></a>penguins <span class="sc">|&gt;</span> </span>
+<span id="cb132-275"><a href="#cb132-275"></a>  <span class="fu">summarize</span>(<span class="fu">sum</span>(<span class="fu">is.na</span>(body_mass_g)))</span>
+<span id="cb132-276"><a href="#cb132-276"></a><span class="in">```</span></span>
+<span id="cb132-277"><a href="#cb132-277"></a></span>
+<span id="cb132-278"><a href="#cb132-278"></a>Let's define a new dataset that removes these penguins:</span>
+<span id="cb132-279"><a href="#cb132-279"></a></span>
+<span id="cb132-282"><a href="#cb132-282"></a><span class="in">```{r}</span></span>
+<span id="cb132-283"><a href="#cb132-283"></a><span class="co"># </span><span class="al">NOTE</span><span class="co"> the use of is.na()</span></span>
+<span id="cb132-284"><a href="#cb132-284"></a>penguins_w_body_mass <span class="ot">&lt;-</span> penguins <span class="sc">|&gt;</span> </span>
+<span id="cb132-285"><a href="#cb132-285"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(body_mass_g))</span>
+<span id="cb132-286"><a href="#cb132-286"></a></span>
+<span id="cb132-287"><a href="#cb132-287"></a><span class="co"># Compare the number of penguins in this vs the original data</span></span>
+<span id="cb132-288"><a href="#cb132-288"></a><span class="fu">nrow</span>(penguins_w_body_mass)</span>
+<span id="cb132-289"><a href="#cb132-289"></a><span class="fu">nrow</span>(penguins)</span>
+<span id="cb132-290"><a href="#cb132-290"></a><span class="in">```</span></span>
+<span id="cb132-291"><a href="#cb132-291"></a></span>
+<span id="cb132-292"><a href="#cb132-292"></a>Note that some penguins in <span class="in">`penguins_w_body_mass`</span> are missing info on <span class="in">`sex`</span>, but we don't care since that's not related to our research question:</span>
+<span id="cb132-293"><a href="#cb132-293"></a></span>
+<span id="cb132-296"><a href="#cb132-296"></a><span class="in">```{r}</span></span>
+<span id="cb132-297"><a href="#cb132-297"></a>penguins_w_body_mass <span class="sc">|&gt;</span> </span>
+<span id="cb132-298"><a href="#cb132-298"></a>  <span class="fu">summarize</span>(<span class="fu">sum</span>(<span class="fu">is.na</span>(sex)))</span>
+<span id="cb132-299"><a href="#cb132-299"></a><span class="in">```</span></span>
+<span id="cb132-300"><a href="#cb132-300"></a></span>
+<span id="cb132-301"><a href="#cb132-301"></a>**Example 2**</span>
+<span id="cb132-302"><a href="#cb132-302"></a></span>
+<span id="cb132-303"><a href="#cb132-303"></a>In the *very rare case* that we need complete information on every variable for the specific task at hand, we can use `na.omit()` to get rid of *any* penguin that's missing info on *any* variable:</span>
+<span id="cb132-304"><a href="#cb132-304"></a></span>
+<span id="cb132-307"><a href="#cb132-307"></a><span class="in">```{r}</span></span>
+<span id="cb132-308"><a href="#cb132-308"></a>penguins_complete <span class="ot">&lt;-</span> penguins <span class="sc">|&gt;</span> </span>
+<span id="cb132-309"><a href="#cb132-309"></a>  <span class="fu">na.omit</span>()</span>
+<span id="cb132-310"><a href="#cb132-310"></a><span class="in">```</span></span>
+<span id="cb132-311"><a href="#cb132-311"></a></span>
+<span id="cb132-312"><a href="#cb132-312"></a>How many penguins did this eliminate?</span>
+<span id="cb132-313"><a href="#cb132-313"></a></span>
+<span id="cb132-316"><a href="#cb132-316"></a><span class="in">```{r}</span></span>
+<span id="cb132-317"><a href="#cb132-317"></a><span class="fu">nrow</span>(penguins_complete)</span>
+<span id="cb132-318"><a href="#cb132-318"></a><span class="fu">nrow</span>(penguins)</span>
+<span id="cb132-319"><a href="#cb132-319"></a><span class="in">```</span></span>
+<span id="cb132-320"><a href="#cb132-320"></a></span>
+<span id="cb132-321"><a href="#cb132-321"></a><span class="fu">#### Part c {.unnumbered}</span></span>
+<span id="cb132-322"><a href="#cb132-322"></a></span>
+<span id="cb132-323"><a href="#cb132-323"></a>Explain why we should only use <span class="in">`na.omit()`</span> in extreme circumstances.</span>
+<span id="cb132-324"><a href="#cb132-324"></a></span>
+<span id="cb132-325"><a href="#cb132-325"></a>\</span>
+<span id="cb132-326"><a href="#cb132-326"></a>\</span>
+<span id="cb132-327"><a href="#cb132-327"></a>\</span>
+<span id="cb132-328"><a href="#cb132-328"></a>\</span>
+<span id="cb132-329"><a href="#cb132-329"></a></span>
+<span id="cb132-330"><a href="#cb132-330"></a><span class="fu">### Exercise 2: More Selecting {.unnumbered}</span></span>
+<span id="cb132-331"><a href="#cb132-331"></a></span>
+<span id="cb132-332"><a href="#cb132-332"></a>Being able to <span class="in">`select()`</span> only certain columns can help simplify our data. This is especially important when we're working with *lots* of columns (which we haven't done yet). It can also get tedious to type out every column of interest. Here are some shortcuts:</span>
+<span id="cb132-333"><a href="#cb132-333"></a></span>
+<span id="cb132-334"><a href="#cb132-334"></a><span class="ss">-   </span><span class="in">`-`</span> *removes* a given variable and keeps all others (e.g. <span class="in">`select(-island)`</span>)</span>
+<span id="cb132-335"><a href="#cb132-335"></a><span class="ss">-   </span><span class="in">`starts_with("___")`</span>, <span class="in">`ends_with("___")`</span>, or <span class="in">`contains("___")`</span> selects only the columns that either start with, end with, or simply contain the given string of characters</span>
+<span id="cb132-336"><a href="#cb132-336"></a></span>
+<span id="cb132-337"><a href="#cb132-337"></a>Use these *shortcuts* to create the following datasets.</span>
+<span id="cb132-338"><a href="#cb132-338"></a></span>
+<span id="cb132-341"><a href="#cb132-341"></a><span class="in">```{r}</span></span>
+<span id="cb132-342"><a href="#cb132-342"></a><span class="co"># First: recall the variable names</span></span>
+<span id="cb132-343"><a href="#cb132-343"></a><span class="fu">names</span>(penguins)</span>
+<span id="cb132-344"><a href="#cb132-344"></a><span class="in">```</span></span>
+<span id="cb132-345"><a href="#cb132-345"></a></span>
+<span id="cb132-348"><a href="#cb132-348"></a><span class="in">```{r}</span></span>
+<span id="cb132-349"><a href="#cb132-349"></a><span class="co"># Use a shortcut to keep everything but the year and island variables</span></span>
+<span id="cb132-350"><a href="#cb132-350"></a></span>
+<span id="cb132-351"><a href="#cb132-351"></a></span>
+<span id="cb132-352"><a href="#cb132-352"></a><span class="in">```</span></span>
+<span id="cb132-353"><a href="#cb132-353"></a></span>
+<span id="cb132-356"><a href="#cb132-356"></a><span class="in">```{r}</span></span>
+<span id="cb132-357"><a href="#cb132-357"></a><span class="co"># Use a shortcut to keep only species and the penguin characteristics measured in mm</span></span>
+<span id="cb132-358"><a href="#cb132-358"></a></span>
+<span id="cb132-359"><a href="#cb132-359"></a></span>
+<span id="cb132-360"><a href="#cb132-360"></a><span class="in">```</span></span>
+<span id="cb132-361"><a href="#cb132-361"></a></span>
+<span id="cb132-364"><a href="#cb132-364"></a><span class="in">```{r}</span></span>
+<span id="cb132-365"><a href="#cb132-365"></a><span class="co"># Use a shortcut to keep only species and bill-related measurements</span></span>
+<span id="cb132-366"><a href="#cb132-366"></a></span>
+<span id="cb132-367"><a href="#cb132-367"></a></span>
+<span id="cb132-368"><a href="#cb132-368"></a><span class="in">```</span></span>
+<span id="cb132-369"><a href="#cb132-369"></a></span>
+<span id="cb132-372"><a href="#cb132-372"></a><span class="in">```{r}</span></span>
+<span id="cb132-373"><a href="#cb132-373"></a><span class="co"># Use a shortcut to keep only species and the length-related characteristics</span></span>
+<span id="cb132-374"><a href="#cb132-374"></a></span>
+<span id="cb132-375"><a href="#cb132-375"></a></span>
+<span id="cb132-376"><a href="#cb132-376"></a><span class="in">```</span></span>
+<span id="cb132-377"><a href="#cb132-377"></a></span>
+<span id="cb132-378"><a href="#cb132-378"></a>\</span>
+<span id="cb132-379"><a href="#cb132-379"></a>\</span>
+<span id="cb132-380"><a href="#cb132-380"></a>\</span>
+<span id="cb132-381"><a href="#cb132-381"></a>\</span>
+<span id="cb132-382"><a href="#cb132-382"></a></span>
+<span id="cb132-383"><a href="#cb132-383"></a><span class="fu">### Exercise 3: Arranging, Counting, &amp; Grouping by Multiple Variables {.unnumbered}</span></span>
+<span id="cb132-384"><a href="#cb132-384"></a></span>
+<span id="cb132-385"><a href="#cb132-385"></a>We've done examples where we need to <span class="in">`filter()`</span> by more than one variable, or <span class="in">`select()`</span> more than one variable. Use your intuition for how we can <span class="in">`arrange()`</span>, <span class="in">`count()`</span>, and <span class="in">`group_by()`</span> more than one variable.</span>
+<span id="cb132-386"><a href="#cb132-386"></a></span>
+<span id="cb132-389"><a href="#cb132-389"></a><span class="in">```{r}</span></span>
+<span id="cb132-390"><a href="#cb132-390"></a><span class="co"># Change this code to sort the penguins by species, and then island name</span></span>
+<span id="cb132-391"><a href="#cb132-391"></a><span class="co"># </span><span class="al">NOTE</span><span class="co">: The first row should be an Adelie penguin living on Biscoe island</span></span>
+<span id="cb132-392"><a href="#cb132-392"></a>penguins <span class="sc">|&gt;</span> </span>
+<span id="cb132-393"><a href="#cb132-393"></a>  <span class="fu">arrange</span>(species)</span>
+<span id="cb132-394"><a href="#cb132-394"></a><span class="in">```</span></span>
+<span id="cb132-395"><a href="#cb132-395"></a></span>
+<span id="cb132-398"><a href="#cb132-398"></a><span class="in">```{r}</span></span>
+<span id="cb132-399"><a href="#cb132-399"></a><span class="co"># Change this code to count the number of male/female penguins observed for each species</span></span>
+<span id="cb132-400"><a href="#cb132-400"></a>penguins <span class="sc">|&gt;</span> </span>
+<span id="cb132-401"><a href="#cb132-401"></a>  <span class="fu">count</span>(species)</span>
+<span id="cb132-402"><a href="#cb132-402"></a><span class="in">```</span></span>
+<span id="cb132-403"><a href="#cb132-403"></a></span>
+<span id="cb132-406"><a href="#cb132-406"></a><span class="in">```{r}</span></span>
+<span id="cb132-407"><a href="#cb132-407"></a><span class="co"># Change this code to calculate the average body mass by species and sex</span></span>
+<span id="cb132-408"><a href="#cb132-408"></a>penguins <span class="sc">|&gt;</span> </span>
+<span id="cb132-409"><a href="#cb132-409"></a>  <span class="fu">group_by</span>(species) <span class="sc">|&gt;</span> </span>
+<span id="cb132-410"><a href="#cb132-410"></a>  <span class="fu">summarize</span>(<span class="at">mean =</span> <span class="fu">mean</span>(body_mass_g, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb132-411"><a href="#cb132-411"></a></span>
+<span id="cb132-412"><a href="#cb132-412"></a><span class="in">```</span></span>
+<span id="cb132-413"><a href="#cb132-413"></a></span>
+<span id="cb132-414"><a href="#cb132-414"></a>\</span>
+<span id="cb132-415"><a href="#cb132-415"></a>\</span>
+<span id="cb132-416"><a href="#cb132-416"></a>\</span>
+<span id="cb132-417"><a href="#cb132-417"></a>\</span>
+<span id="cb132-418"><a href="#cb132-418"></a></span>
+<span id="cb132-419"><a href="#cb132-419"></a><span class="fu">### Exercise 4: Dates {.unnumbered}</span></span>
+<span id="cb132-420"><a href="#cb132-420"></a></span>
+<span id="cb132-421"><a href="#cb132-421"></a>Before some wrangling practice, let's explore another important concept: working with or mutating *date* variables. Dates are a whole special object type or class in R that automatically respect the order of time.</span>
+<span id="cb132-422"><a href="#cb132-422"></a></span>
+<span id="cb132-425"><a href="#cb132-425"></a><span class="in">```{r}</span></span>
+<span id="cb132-426"><a href="#cb132-426"></a><span class="co"># Get today's date</span></span>
+<span id="cb132-427"><a href="#cb132-427"></a><span class="fu">as.Date</span>(<span class="fu">today</span>())</span>
+<span id="cb132-428"><a href="#cb132-428"></a></span>
+<span id="cb132-429"><a href="#cb132-429"></a><span class="co"># Let's store this as "today" so we can work with it below</span></span>
+<span id="cb132-430"><a href="#cb132-430"></a>today <span class="ot">&lt;-</span> <span class="fu">as.Date</span>(<span class="fu">today</span>())</span>
+<span id="cb132-431"><a href="#cb132-431"></a></span>
+<span id="cb132-432"><a href="#cb132-432"></a><span class="co"># Check out the class of this object</span></span>
+<span id="cb132-433"><a href="#cb132-433"></a><span class="fu">class</span>(today)</span>
+<span id="cb132-434"><a href="#cb132-434"></a><span class="in">```</span></span>
+<span id="cb132-435"><a href="#cb132-435"></a></span>
+<span id="cb132-436"><a href="#cb132-436"></a>The <span class="in">`lubridate`</span> package inside <span class="in">`tidyverse`</span> contains functions that can extract various information from dates. Let's learn about some of the most common functions by applying them to <span class="in">`today`</span>. For each, make a comment on what the function does</span>
+<span id="cb132-437"><a href="#cb132-437"></a></span>
+<span id="cb132-440"><a href="#cb132-440"></a><span class="in">```{r}</span></span>
+<span id="cb132-441"><a href="#cb132-441"></a><span class="fu">year</span>(today)</span>
+<span id="cb132-442"><a href="#cb132-442"></a><span class="in">```</span></span>
+<span id="cb132-443"><a href="#cb132-443"></a></span>
+<span id="cb132-446"><a href="#cb132-446"></a><span class="in">```{r}</span></span>
+<span id="cb132-447"><a href="#cb132-447"></a><span class="co"># What do these lines produce / what's their difference?</span></span>
+<span id="cb132-448"><a href="#cb132-448"></a><span class="fu">month</span>(today)</span>
+<span id="cb132-449"><a href="#cb132-449"></a><span class="fu">month</span>(today, <span class="at">label =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb132-450"><a href="#cb132-450"></a><span class="in">```</span></span>
+<span id="cb132-451"><a href="#cb132-451"></a></span>
+<span id="cb132-454"><a href="#cb132-454"></a><span class="in">```{r}</span></span>
+<span id="cb132-455"><a href="#cb132-455"></a><span class="co"># What does this number mean?</span></span>
+<span id="cb132-456"><a href="#cb132-456"></a><span class="fu">week</span>(today)</span>
+<span id="cb132-457"><a href="#cb132-457"></a><span class="in">```</span></span>
+<span id="cb132-458"><a href="#cb132-458"></a></span>
+<span id="cb132-461"><a href="#cb132-461"></a><span class="in">```{r}</span></span>
+<span id="cb132-462"><a href="#cb132-462"></a><span class="co"># What do these lines produce / what's their difference?</span></span>
+<span id="cb132-463"><a href="#cb132-463"></a><span class="fu">mday</span>(today)</span>
+<span id="cb132-464"><a href="#cb132-464"></a><span class="fu">yday</span>(today)  <span class="co"># This is often called the "Julian day"</span></span>
+<span id="cb132-465"><a href="#cb132-465"></a><span class="in">```</span></span>
+<span id="cb132-466"><a href="#cb132-466"></a></span>
+<span id="cb132-469"><a href="#cb132-469"></a><span class="in">```{r}</span></span>
+<span id="cb132-470"><a href="#cb132-470"></a><span class="co"># What do these lines produce / what's their difference?</span></span>
+<span id="cb132-471"><a href="#cb132-471"></a><span class="fu">wday</span>(today)</span>
+<span id="cb132-472"><a href="#cb132-472"></a><span class="fu">wday</span>(today, <span class="at">label =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb132-473"><a href="#cb132-473"></a><span class="in">```</span></span>
+<span id="cb132-474"><a href="#cb132-474"></a></span>
+<span id="cb132-477"><a href="#cb132-477"></a><span class="in">```{r}</span></span>
+<span id="cb132-478"><a href="#cb132-478"></a><span class="co"># What do the results of these 2 lines tell us?</span></span>
+<span id="cb132-479"><a href="#cb132-479"></a>today <span class="sc">&gt;=</span> <span class="fu">ymd</span>(<span class="st">"2024-02-14"</span>)</span>
+<span id="cb132-480"><a href="#cb132-480"></a>today <span class="sc">&lt;</span> <span class="fu">ymd</span>(<span class="st">"2024-02-14"</span>)</span>
+<span id="cb132-481"><a href="#cb132-481"></a><span class="in">```</span></span>
+<span id="cb132-482"><a href="#cb132-482"></a></span>
+<span id="cb132-483"><a href="#cb132-483"></a>\</span>
+<span id="cb132-484"><a href="#cb132-484"></a>\</span>
+<span id="cb132-485"><a href="#cb132-485"></a>\</span>
+<span id="cb132-486"><a href="#cb132-486"></a>\</span>
+<span id="cb132-487"><a href="#cb132-487"></a></span>
+<span id="cb132-488"><a href="#cb132-488"></a><span class="fu">## Exercises Part 2: Application</span></span>
+<span id="cb132-489"><a href="#cb132-489"></a></span>
+<span id="cb132-490"><a href="#cb132-490"></a>The remaining exercises are *similar* to some of those on the homework.  Hence, the solutions are not provided. Let's apply these ideas to the daily <span class="in">`Birthdays`</span> dataset in the <span class="in">`mosaic`</span> package.</span>
+<span id="cb132-491"><a href="#cb132-491"></a></span>
+<span id="cb132-494"><a href="#cb132-494"></a><span class="in">```{r}</span></span>
+<span id="cb132-495"><a href="#cb132-495"></a><span class="fu">library</span>(mosaic)</span>
+<span id="cb132-496"><a href="#cb132-496"></a><span class="fu">data</span>(<span class="st">"Birthdays"</span>)</span>
+<span id="cb132-497"><a href="#cb132-497"></a><span class="fu">head</span>(Birthdays)</span>
+<span id="cb132-498"><a href="#cb132-498"></a><span class="in">```</span></span>
+<span id="cb132-499"><a href="#cb132-499"></a></span>
+<span id="cb132-500"><a href="#cb132-500"></a><span class="in">`Birthdays`</span> gives the number of births recorded on each day of the year in each state from 1969 to 1988^<span class="co">[</span><span class="ot">The `fivethirtyeight` package has more recent data.</span><span class="co">]</span>. We can use our wrangling skills to understand some drivers of daily births. Putting these all together can be challenging! Remember the following ways to make tasks more manageable:</span>
+<span id="cb132-501"><a href="#cb132-501"></a></span>
+<span id="cb132-502"><a href="#cb132-502"></a><span class="ss">-   </span>Translate the prompt into our 6 verbs (and <span class="in">`count()`</span>). That is, think before you type.</span>
+<span id="cb132-503"><a href="#cb132-503"></a><span class="ss">-   </span>Build your code line by line. It's important to understand what's being piped into each function!</span>
+<span id="cb132-504"><a href="#cb132-504"></a></span>
+<span id="cb132-505"><a href="#cb132-505"></a></span>
+<span id="cb132-506"><a href="#cb132-506"></a></span>
+<span id="cb132-507"><a href="#cb132-507"></a></span>
+<span id="cb132-508"><a href="#cb132-508"></a></span>
+<span id="cb132-509"><a href="#cb132-509"></a><span class="fu">### Exercise 5: Warming up {.unnumbered}</span></span>
+<span id="cb132-510"><a href="#cb132-510"></a></span>
+<span id="cb132-513"><a href="#cb132-513"></a><span class="in">```{r}</span></span>
+<span id="cb132-514"><a href="#cb132-514"></a><span class="co"># How many days of data do we have for each state?</span></span>
+<span id="cb132-515"><a href="#cb132-515"></a></span>
+<span id="cb132-516"><a href="#cb132-516"></a></span>
+<span id="cb132-517"><a href="#cb132-517"></a><span class="co"># How many total births were there in this time period?</span></span>
+<span id="cb132-518"><a href="#cb132-518"></a></span>
+<span id="cb132-519"><a href="#cb132-519"></a></span>
+<span id="cb132-520"><a href="#cb132-520"></a><span class="co"># How many total births were there per state in this time period, sorted from low to high?</span></span>
+<span id="cb132-521"><a href="#cb132-521"></a></span>
+<span id="cb132-522"><a href="#cb132-522"></a></span>
+<span id="cb132-523"><a href="#cb132-523"></a><span class="in">```</span></span>
+<span id="cb132-524"><a href="#cb132-524"></a></span>
+<span id="cb132-525"><a href="#cb132-525"></a></span>
+<span id="cb132-526"><a href="#cb132-526"></a></span>
+<span id="cb132-527"><a href="#cb132-527"></a><span class="fu">### Exercise 6: Homework Reprise {.unnumbered}</span></span>
+<span id="cb132-528"><a href="#cb132-528"></a></span>
+<span id="cb132-529"><a href="#cb132-529"></a>Create a new dataset named <span class="in">`daily_births`</span> that includes the total number of births per day (across all states) and the corresponding day of the week, eg, Mon. NOTE: Name the column with total births so that it's easier to wrangle and plot.</span>
+<span id="cb132-530"><a href="#cb132-530"></a></span>
+<span id="cb132-533"><a href="#cb132-533"></a><span class="in">```{r}</span></span>
+<span id="cb132-534"><a href="#cb132-534"></a><span class="in">```</span></span>
+<span id="cb132-535"><a href="#cb132-535"></a></span>
+<span id="cb132-536"><a href="#cb132-536"></a>Using this data, construct a plot of <span class="in">`births`</span> over time, indicating the day of week.</span>
+<span id="cb132-537"><a href="#cb132-537"></a></span>
+<span id="cb132-540"><a href="#cb132-540"></a><span class="in">```{r}</span></span>
+<span id="cb132-541"><a href="#cb132-541"></a><span class="in">```</span></span>
+<span id="cb132-542"><a href="#cb132-542"></a></span>
+<span id="cb132-543"><a href="#cb132-543"></a></span>
+<span id="cb132-544"><a href="#cb132-544"></a></span>
+<span id="cb132-545"><a href="#cb132-545"></a><span class="fu">### Exercise 7: Wrangle &amp; Plot {.unnumbered}</span></span>
+<span id="cb132-546"><a href="#cb132-546"></a></span>
+<span id="cb132-547"><a href="#cb132-547"></a>For each prompt below, you can decide whether you want to: (1) wrangle and store data, then plot; or (2) wrangle data and pipe directly into ggplot. For example:</span>
+<span id="cb132-548"><a href="#cb132-548"></a></span>
+<span id="cb132-551"><a href="#cb132-551"></a><span class="in">```{r}</span></span>
+<span id="cb132-552"><a href="#cb132-552"></a>penguins <span class="sc">|&gt;</span> </span>
+<span id="cb132-553"><a href="#cb132-553"></a>  <span class="fu">filter</span>(species <span class="sc">!=</span> <span class="st">"Gentoo"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb132-554"><a href="#cb132-554"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">y =</span> bill_length_mm, <span class="at">x =</span> bill_depth_mm, <span class="at">color =</span> species)) <span class="sc">+</span> </span>
+<span id="cb132-555"><a href="#cb132-555"></a>    <span class="fu">geom_point</span>()</span>
+<span id="cb132-556"><a href="#cb132-556"></a><span class="in">```</span></span>
+<span id="cb132-557"><a href="#cb132-557"></a></span>
+<span id="cb132-558"><a href="#cb132-558"></a><span class="fu">#### Part a {.unnumbered}</span></span>
+<span id="cb132-559"><a href="#cb132-559"></a></span>
+<span id="cb132-560"><a href="#cb132-560"></a>Calculate the total number of births in each month and year, eg, Jan 1969, Feb 1969, .... Label month by names not numbers, eg, Jan not 1. Then, plot the births by month and comment on what you learn.</span>
+<span id="cb132-561"><a href="#cb132-561"></a></span>
+<span id="cb132-564"><a href="#cb132-564"></a><span class="in">```{r}</span></span>
+<span id="cb132-565"><a href="#cb132-565"></a><span class="in">```</span></span>
+<span id="cb132-566"><a href="#cb132-566"></a></span>
+<span id="cb132-567"><a href="#cb132-567"></a><span class="fu">#### Part b {.unnumbered}</span></span>
+<span id="cb132-568"><a href="#cb132-568"></a></span>
+<span id="cb132-569"><a href="#cb132-569"></a>In 1988, calculate the total number of births per week in each state. Get rid of week "53", which isn't a complete week! Then, make a line plot of births by week for each state and comment on what you learn. For example, do you notice any seasonal trends? Are these the same in every state? Any outliers?</span>
+<span id="cb132-570"><a href="#cb132-570"></a></span>
+<span id="cb132-573"><a href="#cb132-573"></a><span class="in">```{r}</span></span>
+<span id="cb132-574"><a href="#cb132-574"></a><span class="in">```</span></span>
+<span id="cb132-575"><a href="#cb132-575"></a></span>
+<span id="cb132-576"><a href="#cb132-576"></a><span class="fu">#### Part c {.unnumbered}</span></span>
+<span id="cb132-577"><a href="#cb132-577"></a></span>
+<span id="cb132-578"><a href="#cb132-578"></a>Repeat the above for just Minnesota (MN) and Louisiana (LA). MN has one of the coldest climates and LA has one of the warmest. How do their seasonal trends compare? Do you think these trends are similar in other colder and warmer states? Try it!</span>
+<span id="cb132-579"><a href="#cb132-579"></a></span>
+<span id="cb132-582"><a href="#cb132-582"></a><span class="in">```{r}</span></span>
+<span id="cb132-583"><a href="#cb132-583"></a><span class="in">```</span></span>
+<span id="cb132-584"><a href="#cb132-584"></a></span>
+<span id="cb132-585"><a href="#cb132-585"></a></span>
+<span id="cb132-586"><a href="#cb132-586"></a></span>
+<span id="cb132-587"><a href="#cb132-587"></a><span class="fu">### Exercise 8: More Practice {.unnumbered}</span></span>
+<span id="cb132-588"><a href="#cb132-588"></a></span>
+<span id="cb132-589"><a href="#cb132-589"></a><span class="fu">#### Part a {.unnumbered}</span></span>
+<span id="cb132-590"><a href="#cb132-590"></a></span>
+<span id="cb132-591"><a href="#cb132-591"></a>Create a dataset with only births in Massachusetts (MA) in 1979 and sort the days from those with the most births to those with the fewest.</span>
+<span id="cb132-592"><a href="#cb132-592"></a></span>
+<span id="cb132-595"><a href="#cb132-595"></a><span class="in">```{r}</span></span>
+<span id="cb132-596"><a href="#cb132-596"></a><span class="in">```</span></span>
+<span id="cb132-597"><a href="#cb132-597"></a></span>
+<span id="cb132-598"><a href="#cb132-598"></a><span class="fu">#### Part b {.unnumbered}</span></span>
+<span id="cb132-599"><a href="#cb132-599"></a></span>
+<span id="cb132-600"><a href="#cb132-600"></a>Make a table showing the five states with the most births between September 9, 1979 and September 12, 1979, including the 9th and 12th. Arrange the table in descending order of births.</span>
+<span id="cb132-601"><a href="#cb132-601"></a></span>
+<span id="cb132-602"><a href="#cb132-602"></a></span>
+<span id="cb132-603"><a href="#cb132-603"></a><span class="fu">## Solutions</span></span>
+<span id="cb132-604"><a href="#cb132-604"></a></span>
+<span id="cb132-605"><a href="#cb132-605"></a>&lt;details&gt;</span>
+<span id="cb132-606"><a href="#cb132-606"></a></span>
+<span id="cb132-607"><a href="#cb132-607"></a>&lt;summary&gt;Click for Solutions&lt;/summary&gt;</span>
+<span id="cb132-608"><a href="#cb132-608"></a></span>
+<span id="cb132-609"><a href="#cb132-609"></a><span class="fu">### Example 1: Single Verb {.unnumbered}</span></span>
+<span id="cb132-610"><a href="#cb132-610"></a></span>
+<span id="cb132-613"><a href="#cb132-613"></a><span class="in">```{r}</span></span>
+<span id="cb132-614"><a href="#cb132-614"></a><span class="fu">ggplot</span>(penguins, <span class="fu">aes</span>(<span class="at">y =</span> body_mass_g, <span class="at">x =</span> bill_length_mm, <span class="at">color =</span> species)) <span class="sc">+</span> </span>
+<span id="cb132-615"><a href="#cb132-615"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span> </span>
+<span id="cb132-616"><a href="#cb132-616"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> sex)</span>
+<span id="cb132-617"><a href="#cb132-617"></a></span>
+<span id="cb132-618"><a href="#cb132-618"></a><span class="in">```</span></span>
+<span id="cb132-619"><a href="#cb132-619"></a></span>
+<span id="cb132-620"><a href="#cb132-620"></a>\</span>
+<span id="cb132-621"><a href="#cb132-621"></a>\</span>
+<span id="cb132-622"><a href="#cb132-622"></a>\</span>
+<span id="cb132-623"><a href="#cb132-623"></a>\</span>
+<span id="cb132-624"><a href="#cb132-624"></a></span>
+<span id="cb132-625"><a href="#cb132-625"></a></span>
+<span id="cb132-626"><a href="#cb132-626"></a></span>
+<span id="cb132-629"><a href="#cb132-629"></a><span class="in">```{r}</span></span>
+<span id="cb132-630"><a href="#cb132-630"></a><span class="co"># Get data on only Adelie penguins that weigh more than 4700g</span></span>
+<span id="cb132-631"><a href="#cb132-631"></a>penguins <span class="sc">|&gt;</span> </span>
+<span id="cb132-632"><a href="#cb132-632"></a>  <span class="fu">filter</span>(species <span class="sc">==</span> <span class="st">"Adelie"</span>, body_mass_g <span class="sc">&gt;</span> <span class="dv">4700</span>)</span>
+<span id="cb132-633"><a href="#cb132-633"></a></span>
+<span id="cb132-634"><a href="#cb132-634"></a><span class="co"># Get data on penguin body mass only</span></span>
+<span id="cb132-635"><a href="#cb132-635"></a><span class="co"># Show just the first 6 rows</span></span>
+<span id="cb132-636"><a href="#cb132-636"></a>penguins <span class="sc">|&gt;</span> </span>
+<span id="cb132-637"><a href="#cb132-637"></a>  <span class="fu">select</span>(body_mass_g) <span class="sc">|&gt;</span> </span>
+<span id="cb132-638"><a href="#cb132-638"></a>  <span class="fu">head</span>()</span>
+<span id="cb132-639"><a href="#cb132-639"></a></span>
+<span id="cb132-640"><a href="#cb132-640"></a><span class="co"># Sort the penguins from smallest to largest body mass</span></span>
+<span id="cb132-641"><a href="#cb132-641"></a><span class="co"># Show just the first 6 rows</span></span>
+<span id="cb132-642"><a href="#cb132-642"></a>penguins <span class="sc">|&gt;</span> </span>
+<span id="cb132-643"><a href="#cb132-643"></a>  <span class="fu">arrange</span>(body_mass_g) <span class="sc">|&gt;</span> </span>
+<span id="cb132-644"><a href="#cb132-644"></a>  <span class="fu">head</span>()</span>
+<span id="cb132-645"><a href="#cb132-645"></a></span>
+<span id="cb132-646"><a href="#cb132-646"></a><span class="co"># Calculate the average body mass across all penguins</span></span>
+<span id="cb132-647"><a href="#cb132-647"></a><span class="co"># Note: na.rm = TRUE removes the NAs from the calculation</span></span>
+<span id="cb132-648"><a href="#cb132-648"></a>penguins <span class="sc">|&gt;</span> </span>
+<span id="cb132-649"><a href="#cb132-649"></a>  <span class="fu">summarize</span>(<span class="at">mean =</span> <span class="fu">mean</span>(body_mass_g, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb132-650"><a href="#cb132-650"></a></span>
+<span id="cb132-651"><a href="#cb132-651"></a><span class="co"># Calculate the average body mass by species</span></span>
+<span id="cb132-652"><a href="#cb132-652"></a>penguins <span class="sc">|&gt;</span> </span>
+<span id="cb132-653"><a href="#cb132-653"></a>  <span class="fu">group_by</span>(species) <span class="sc">|&gt;</span> </span>
+<span id="cb132-654"><a href="#cb132-654"></a>  <span class="fu">summarize</span>(<span class="at">mean =</span> <span class="fu">mean</span>(body_mass_g, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb132-655"><a href="#cb132-655"></a></span>
+<span id="cb132-656"><a href="#cb132-656"></a><span class="co"># Create a new column that records body mass in kilograms, not grams</span></span>
+<span id="cb132-657"><a href="#cb132-657"></a><span class="co"># </span><span class="al">NOTE</span><span class="co">: there are 1000 g in 1 kg</span></span>
+<span id="cb132-658"><a href="#cb132-658"></a><span class="co"># Show just the first 6 rows</span></span>
+<span id="cb132-659"><a href="#cb132-659"></a>penguins <span class="sc">|&gt;</span> </span>
+<span id="cb132-660"><a href="#cb132-660"></a>  <span class="fu">mutate</span>(<span class="at">body_mass_kg =</span> body_mass_g<span class="sc">/</span><span class="dv">1000</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb132-661"><a href="#cb132-661"></a>  <span class="fu">head</span>()</span>
+<span id="cb132-662"><a href="#cb132-662"></a></span>
+<span id="cb132-663"><a href="#cb132-663"></a><span class="in">```</span></span>
+<span id="cb132-664"><a href="#cb132-664"></a></span>
+<span id="cb132-665"><a href="#cb132-665"></a>\</span>
+<span id="cb132-666"><a href="#cb132-666"></a>\</span>
+<span id="cb132-667"><a href="#cb132-667"></a>\</span>
+<span id="cb132-668"><a href="#cb132-668"></a>\</span>
+<span id="cb132-669"><a href="#cb132-669"></a></span>
+<span id="cb132-670"><a href="#cb132-670"></a></span>
+<span id="cb132-671"><a href="#cb132-671"></a></span>
+<span id="cb132-674"><a href="#cb132-674"></a><span class="in">```{r}</span></span>
+<span id="cb132-675"><a href="#cb132-675"></a><span class="fu">ggplot</span>(penguins, <span class="fu">aes</span>(<span class="at">x =</span> species)) <span class="sc">+</span> </span>
+<span id="cb132-676"><a href="#cb132-676"></a>  <span class="fu">geom_bar</span>()</span>
+<span id="cb132-677"><a href="#cb132-677"></a></span>
+<span id="cb132-678"><a href="#cb132-678"></a>penguins <span class="sc">|&gt;</span> </span>
+<span id="cb132-679"><a href="#cb132-679"></a>  <span class="fu">group_by</span>(species) <span class="sc">|&gt;</span> </span>
+<span id="cb132-680"><a href="#cb132-680"></a>  <span class="fu">summarize</span>(<span class="fu">n</span>())</span>
+<span id="cb132-681"><a href="#cb132-681"></a></span>
+<span id="cb132-682"><a href="#cb132-682"></a>penguins <span class="sc">|&gt;</span> </span>
+<span id="cb132-683"><a href="#cb132-683"></a>  <span class="fu">count</span>(species)</span>
+<span id="cb132-684"><a href="#cb132-684"></a><span class="in">```</span></span>
+<span id="cb132-685"><a href="#cb132-685"></a></span>
+<span id="cb132-686"><a href="#cb132-686"></a></span>
+<span id="cb132-687"><a href="#cb132-687"></a></span>
+<span id="cb132-688"><a href="#cb132-688"></a><span class="fu">### Example 2: Multiple Verbs {.unnumbered}</span></span>
+<span id="cb132-689"><a href="#cb132-689"></a></span>
+<span id="cb132-692"><a href="#cb132-692"></a><span class="in">```{r}</span></span>
+<span id="cb132-693"><a href="#cb132-693"></a><span class="co"># Sort Gentoo penguins from biggest to smallest with respect to their </span></span>
+<span id="cb132-694"><a href="#cb132-694"></a><span class="co"># bill length in cm (there are 10 mm in a cm)</span></span>
+<span id="cb132-695"><a href="#cb132-695"></a>penguins <span class="sc">|&gt;</span> </span>
+<span id="cb132-696"><a href="#cb132-696"></a>  <span class="fu">filter</span>(species <span class="sc">==</span> <span class="st">"Gentoo"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb132-697"><a href="#cb132-697"></a>  <span class="fu">mutate</span>(<span class="at">bill_length_cm =</span> bill_length_mm <span class="sc">/</span> <span class="dv">10</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb132-698"><a href="#cb132-698"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(bill_length_cm))</span>
+<span id="cb132-699"><a href="#cb132-699"></a></span>
+<span id="cb132-700"><a href="#cb132-700"></a><span class="co"># Sort the species from smallest to biggest with respect to their </span></span>
+<span id="cb132-701"><a href="#cb132-701"></a><span class="co"># average bill length in cm</span></span>
+<span id="cb132-702"><a href="#cb132-702"></a>penguins <span class="sc">|&gt;</span> </span>
+<span id="cb132-703"><a href="#cb132-703"></a>  <span class="fu">mutate</span>(<span class="at">bill_length_cm =</span> bill_length_mm <span class="sc">/</span> <span class="dv">10</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb132-704"><a href="#cb132-704"></a>  <span class="fu">group_by</span>(species) <span class="sc">|&gt;</span> </span>
+<span id="cb132-705"><a href="#cb132-705"></a>  <span class="fu">summarize</span>(<span class="at">mean_bill_length =</span> <span class="fu">mean</span>(bill_length_cm, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb132-706"><a href="#cb132-706"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(mean_bill_length))</span>
+<span id="cb132-707"><a href="#cb132-707"></a><span class="in">```</span></span>
+<span id="cb132-708"><a href="#cb132-708"></a></span>
+<span id="cb132-709"><a href="#cb132-709"></a></span>
+<span id="cb132-710"><a href="#cb132-710"></a></span>
+<span id="cb132-711"><a href="#cb132-711"></a><span class="fu">### Example 3: Interpret Code {.unnumbered}</span></span>
+<span id="cb132-712"><a href="#cb132-712"></a></span>
+<span id="cb132-713"><a href="#cb132-713"></a></span>
+<span id="cb132-714"><a href="#cb132-714"></a></span>
+<span id="cb132-715"><a href="#cb132-715"></a><span class="fu">### Exercise 1: More Filtering {.unnumbered}</span></span>
+<span id="cb132-716"><a href="#cb132-716"></a></span>
+<span id="cb132-717"><a href="#cb132-717"></a><span class="fu">#### Part a {.unnumbered}</span></span>
+<span id="cb132-718"><a href="#cb132-718"></a></span>
+<span id="cb132-721"><a href="#cb132-721"></a><span class="in">```{r}</span></span>
+<span id="cb132-722"><a href="#cb132-722"></a><span class="co"># Create a dataset with just Adelie and Chinstrap using %in%</span></span>
+<span id="cb132-723"><a href="#cb132-723"></a><span class="co"># Pipe this into `count(species)` to confirm that you only have these 2 species</span></span>
+<span id="cb132-724"><a href="#cb132-724"></a>penguins <span class="sc">|&gt;</span></span>
+<span id="cb132-725"><a href="#cb132-725"></a>  <span class="fu">filter</span>(species <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Adelie"</span>, <span class="st">"Chinstrap"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb132-726"><a href="#cb132-726"></a>  <span class="fu">count</span>(species)</span>
+<span id="cb132-727"><a href="#cb132-727"></a><span class="in">```</span></span>
+<span id="cb132-728"><a href="#cb132-728"></a></span>
+<span id="cb132-731"><a href="#cb132-731"></a><span class="in">```{r}</span></span>
+<span id="cb132-732"><a href="#cb132-732"></a><span class="co"># Create a dataset with just Adelie and Chinstrap using !=</span></span>
+<span id="cb132-733"><a href="#cb132-733"></a><span class="co"># Pipe this into `count(species)` to confirm that you only have these 2 species</span></span>
+<span id="cb132-734"><a href="#cb132-734"></a>penguins <span class="sc">|&gt;</span></span>
+<span id="cb132-735"><a href="#cb132-735"></a>  <span class="fu">filter</span>(species <span class="sc">!=</span> <span class="st">"Gentoo"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb132-736"><a href="#cb132-736"></a>  <span class="fu">count</span>(species)</span>
+<span id="cb132-737"><a href="#cb132-737"></a><span class="in">```</span></span>
+<span id="cb132-738"><a href="#cb132-738"></a></span>
+<span id="cb132-739"><a href="#cb132-739"></a><span class="fu">#### Part b {.unnumbered}</span></span>
+<span id="cb132-740"><a href="#cb132-740"></a></span>
+<span id="cb132-741"><a href="#cb132-741"></a><span class="fu">#### Part c {.unnumbered}</span></span>
+<span id="cb132-742"><a href="#cb132-742"></a></span>
+<span id="cb132-743"><a href="#cb132-743"></a>It might get rid of data points even if they have complete information on the variables we need, just because they're missing info on variables we don't need.</span>
+<span id="cb132-744"><a href="#cb132-744"></a></span>
+<span id="cb132-745"><a href="#cb132-745"></a></span>
+<span id="cb132-746"><a href="#cb132-746"></a><span class="fu">### Exercise 2: More selecting {.unnumbered}</span></span>
+<span id="cb132-747"><a href="#cb132-747"></a></span>
+<span id="cb132-750"><a href="#cb132-750"></a><span class="in">```{r}</span></span>
+<span id="cb132-751"><a href="#cb132-751"></a><span class="co"># First: recall the variable names</span></span>
+<span id="cb132-752"><a href="#cb132-752"></a><span class="fu">names</span>(penguins)</span>
+<span id="cb132-753"><a href="#cb132-753"></a><span class="in">```</span></span>
+<span id="cb132-754"><a href="#cb132-754"></a></span>
+<span id="cb132-757"><a href="#cb132-757"></a><span class="in">```{r}</span></span>
+<span id="cb132-758"><a href="#cb132-758"></a><span class="co"># Use a shortcut to keep everything but the year and island variables</span></span>
+<span id="cb132-759"><a href="#cb132-759"></a>penguins <span class="sc">|&gt;</span> </span>
+<span id="cb132-760"><a href="#cb132-760"></a>  <span class="fu">select</span>(<span class="sc">-</span>year, <span class="sc">-</span>island)</span>
+<span id="cb132-761"><a href="#cb132-761"></a><span class="in">```</span></span>
+<span id="cb132-762"><a href="#cb132-762"></a></span>
+<span id="cb132-765"><a href="#cb132-765"></a><span class="in">```{r}</span></span>
+<span id="cb132-766"><a href="#cb132-766"></a><span class="co"># Use a shortcut to keep only species and the penguin characteristics measured in mm</span></span>
+<span id="cb132-767"><a href="#cb132-767"></a>penguins <span class="sc">|&gt;</span> </span>
+<span id="cb132-768"><a href="#cb132-768"></a>  <span class="fu">select</span>(species, <span class="fu">ends_with</span>(<span class="st">"mm"</span>))</span>
+<span id="cb132-769"><a href="#cb132-769"></a><span class="in">```</span></span>
+<span id="cb132-770"><a href="#cb132-770"></a></span>
+<span id="cb132-773"><a href="#cb132-773"></a><span class="in">```{r}</span></span>
+<span id="cb132-774"><a href="#cb132-774"></a><span class="co"># Use a shortcut to keep only species and bill-related measurements</span></span>
+<span id="cb132-775"><a href="#cb132-775"></a>penguins <span class="sc">|&gt;</span> </span>
+<span id="cb132-776"><a href="#cb132-776"></a>  <span class="fu">select</span>(species, <span class="fu">starts_with</span>(<span class="st">"bill"</span>))</span>
+<span id="cb132-777"><a href="#cb132-777"></a><span class="in">```</span></span>
+<span id="cb132-778"><a href="#cb132-778"></a></span>
+<span id="cb132-781"><a href="#cb132-781"></a><span class="in">```{r}</span></span>
+<span id="cb132-782"><a href="#cb132-782"></a><span class="co"># Use a shortcut to keep only species and the length-related characteristics</span></span>
+<span id="cb132-783"><a href="#cb132-783"></a>penguins <span class="sc">|&gt;</span> </span>
+<span id="cb132-784"><a href="#cb132-784"></a>  <span class="fu">select</span>(species, <span class="fu">contains</span>(<span class="st">"length"</span>))</span>
+<span id="cb132-785"><a href="#cb132-785"></a><span class="in">```</span></span>
+<span id="cb132-786"><a href="#cb132-786"></a></span>
+<span id="cb132-787"><a href="#cb132-787"></a></span>
+<span id="cb132-788"><a href="#cb132-788"></a><span class="fu">### Exercise 3: Arranging, counting, &amp; grouping by multiple variables {.unnumbered}</span></span>
+<span id="cb132-789"><a href="#cb132-789"></a></span>
+<span id="cb132-792"><a href="#cb132-792"></a><span class="in">```{r}</span></span>
+<span id="cb132-793"><a href="#cb132-793"></a><span class="co"># Change this code to sort the penguins by species, and then island name</span></span>
+<span id="cb132-794"><a href="#cb132-794"></a><span class="co"># </span><span class="al">NOTE</span><span class="co">: The first row should be an Adelie penguin living on Biscoe island</span></span>
+<span id="cb132-795"><a href="#cb132-795"></a>penguins <span class="sc">|&gt;</span> </span>
+<span id="cb132-796"><a href="#cb132-796"></a>  <span class="fu">arrange</span>(species, island) <span class="sc">|&gt;</span> </span>
+<span id="cb132-797"><a href="#cb132-797"></a>  <span class="fu">head</span>()</span>
+<span id="cb132-798"><a href="#cb132-798"></a><span class="in">```</span></span>
+<span id="cb132-799"><a href="#cb132-799"></a></span>
+<span id="cb132-802"><a href="#cb132-802"></a><span class="in">```{r}</span></span>
+<span id="cb132-803"><a href="#cb132-803"></a><span class="co"># Change this code to count the number of male/female penguins observed for each species</span></span>
+<span id="cb132-804"><a href="#cb132-804"></a>penguins <span class="sc">|&gt;</span> </span>
+<span id="cb132-805"><a href="#cb132-805"></a>  <span class="fu">count</span>(species, sex)</span>
+<span id="cb132-806"><a href="#cb132-806"></a><span class="in">```</span></span>
+<span id="cb132-807"><a href="#cb132-807"></a></span>
+<span id="cb132-810"><a href="#cb132-810"></a><span class="in">```{r}</span></span>
+<span id="cb132-811"><a href="#cb132-811"></a><span class="co"># Change this code to calculate the average body mass by species and sex</span></span>
+<span id="cb132-812"><a href="#cb132-812"></a>penguins <span class="sc">|&gt;</span> </span>
+<span id="cb132-813"><a href="#cb132-813"></a>  <span class="fu">group_by</span>(species, sex) <span class="sc">|&gt;</span> </span>
+<span id="cb132-814"><a href="#cb132-814"></a>  <span class="fu">summarize</span>(<span class="at">mean =</span> <span class="fu">mean</span>(body_mass_g, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb132-815"><a href="#cb132-815"></a></span>
+<span id="cb132-816"><a href="#cb132-816"></a><span class="in">```</span></span>
+<span id="cb132-817"><a href="#cb132-817"></a></span>
+<span id="cb132-818"><a href="#cb132-818"></a></span>
+<span id="cb132-819"><a href="#cb132-819"></a><span class="fu">### Exercise 4: Dates {.unnumbered}</span></span>
+<span id="cb132-820"><a href="#cb132-820"></a></span>
+<span id="cb132-823"><a href="#cb132-823"></a><span class="in">```{r}</span></span>
+<span id="cb132-824"><a href="#cb132-824"></a><span class="co"># Get today's date</span></span>
+<span id="cb132-825"><a href="#cb132-825"></a><span class="fu">as.Date</span>(<span class="fu">today</span>())</span>
+<span id="cb132-826"><a href="#cb132-826"></a></span>
+<span id="cb132-827"><a href="#cb132-827"></a><span class="co"># Let's store this as "today" so we can work with it below</span></span>
+<span id="cb132-828"><a href="#cb132-828"></a>today <span class="ot">&lt;-</span> <span class="fu">as.Date</span>(<span class="fu">today</span>())</span>
+<span id="cb132-829"><a href="#cb132-829"></a></span>
+<span id="cb132-830"><a href="#cb132-830"></a><span class="co"># Check out the class of this object</span></span>
+<span id="cb132-831"><a href="#cb132-831"></a><span class="fu">class</span>(today)</span>
+<span id="cb132-832"><a href="#cb132-832"></a><span class="in">```</span></span>
+<span id="cb132-833"><a href="#cb132-833"></a></span>
+<span id="cb132-836"><a href="#cb132-836"></a><span class="in">```{r}</span></span>
+<span id="cb132-837"><a href="#cb132-837"></a><span class="co"># Records just the 4-digit year</span></span>
+<span id="cb132-838"><a href="#cb132-838"></a><span class="fu">year</span>(today)</span>
+<span id="cb132-839"><a href="#cb132-839"></a><span class="in">```</span></span>
+<span id="cb132-840"><a href="#cb132-840"></a></span>
+<span id="cb132-843"><a href="#cb132-843"></a><span class="in">```{r}</span></span>
+<span id="cb132-844"><a href="#cb132-844"></a><span class="co"># Today's month, as a number or label</span></span>
+<span id="cb132-845"><a href="#cb132-845"></a><span class="fu">month</span>(today)</span>
+<span id="cb132-846"><a href="#cb132-846"></a><span class="fu">month</span>(today, <span class="at">label =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb132-847"><a href="#cb132-847"></a><span class="in">```</span></span>
+<span id="cb132-848"><a href="#cb132-848"></a></span>
+<span id="cb132-851"><a href="#cb132-851"></a><span class="in">```{r}</span></span>
+<span id="cb132-852"><a href="#cb132-852"></a><span class="co"># This is the week of the year (1-52)</span></span>
+<span id="cb132-853"><a href="#cb132-853"></a><span class="fu">week</span>(today)</span>
+<span id="cb132-854"><a href="#cb132-854"></a><span class="in">```</span></span>
+<span id="cb132-855"><a href="#cb132-855"></a></span>
+<span id="cb132-858"><a href="#cb132-858"></a><span class="in">```{r}</span></span>
+<span id="cb132-859"><a href="#cb132-859"></a><span class="co"># Day of the month (1-31) and day of the year (1-366)</span></span>
+<span id="cb132-860"><a href="#cb132-860"></a><span class="fu">mday</span>(today)</span>
+<span id="cb132-861"><a href="#cb132-861"></a><span class="fu">yday</span>(today)  <span class="co"># This is often called the "Julian day"</span></span>
+<span id="cb132-862"><a href="#cb132-862"></a><span class="in">```</span></span>
+<span id="cb132-863"><a href="#cb132-863"></a></span>
+<span id="cb132-866"><a href="#cb132-866"></a><span class="in">```{r}</span></span>
+<span id="cb132-867"><a href="#cb132-867"></a><span class="co"># Day of the week as a number or label</span></span>
+<span id="cb132-868"><a href="#cb132-868"></a><span class="fu">wday</span>(today)</span>
+<span id="cb132-869"><a href="#cb132-869"></a><span class="fu">wday</span>(today, <span class="at">label =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb132-870"><a href="#cb132-870"></a><span class="in">```</span></span>
+<span id="cb132-871"><a href="#cb132-871"></a></span>
+<span id="cb132-874"><a href="#cb132-874"></a><span class="in">```{r}</span></span>
+<span id="cb132-875"><a href="#cb132-875"></a><span class="co"># today is on or after Feb 14, 2024</span></span>
+<span id="cb132-876"><a href="#cb132-876"></a>today <span class="sc">&gt;=</span> <span class="fu">ymd</span>(<span class="st">"2024-02-14"</span>)</span>
+<span id="cb132-877"><a href="#cb132-877"></a><span class="co"># today is not before Feb 14, 2024</span></span>
+<span id="cb132-878"><a href="#cb132-878"></a>today <span class="sc">&lt;</span> <span class="fu">ymd</span>(<span class="st">"2024-02-14"</span>)</span>
+<span id="cb132-879"><a href="#cb132-879"></a><span class="in">```</span></span>
+<span id="cb132-880"><a href="#cb132-880"></a></span>
+<span id="cb132-881"><a href="#cb132-881"></a></span>
+<span id="cb132-882"><a href="#cb132-882"></a>&lt;/details&gt;</span>
+</code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div></div></div></div></div>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

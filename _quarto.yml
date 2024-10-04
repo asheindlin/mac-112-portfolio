@@ -22,6 +22,7 @@ book:
       - activities/Spatial-viz.qmd
       - activities/Effective-viz.qmd
       - activities/Wrangle-Verb.qmd
+      - activities/Wrangling-Practice.qmd
     
     - part: notes/README.qmd
       chapters: 
