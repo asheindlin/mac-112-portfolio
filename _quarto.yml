@@ -23,6 +23,7 @@ book:
       - activities/Effective-viz.qmd
       - activities/Wrangle-Verb.qmd
       - activities/Wrangling-Practice.qmd
+      - activities/Reshaping-Data.qmd
     
     - part: notes/README.qmd
       chapters: 
