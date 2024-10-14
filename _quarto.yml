@@ -24,6 +24,8 @@ book:
       - activities/Wrangle-Verb.qmd
       - activities/Wrangling-Practice.qmd
       - activities/Reshaping-Data.qmd
+      - activities/Joining-Data.qmd
+      - activities/Factors.qmd
     
     - part: notes/README.qmd
       chapters: 
