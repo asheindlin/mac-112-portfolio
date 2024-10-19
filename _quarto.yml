@@ -26,6 +26,7 @@ book:
       - activities/Reshaping-Data.qmd
       - activities/Joining-Data.qmd
       - activities/Factors.qmd
+      - activities/Strings.qmd
     
     - part: notes/README.qmd
       chapters: 
