@@ -1,0 +1,245 @@
+---
+title: "Mid-semester Review"
+number-sections: true
+execute: 
+  warning: false
+fig-env: 'figure'
+fig-pos: 'h'
+fig-align: center
+code-fold: false
+---
+
+
+::: {.callout-caution title="Learning Goals"}
+
+Review the basics of wrangling and visualization
+
+:::
+
+
+
+
+## Warm-up
+
+![](https://mac-stat.github.io/images/112/legos.png)
+
+Thus far, we've learned how to:
+
+-   use `ggplot()` to construct data visualizations
+-   do some wrangling:
+    -   `arrange()` our data in a meaningful order
+    -   subset the data to only `filter()` the rows and `select()` the columns of interest
+    -   `mutate()` existing variables and define new variables
+    -   `summarize()` various aspects of a variable, both overall and by group (`group_by()`)
+-   reshape our data to fit the task at hand (`pivot_longer()`, `pivot_wider()`)
+-   `join()` different datasets into one
+
+Let's review some basics, emphasizing some themes in Homework 3 feedback!
+
+Along the way, pay special attention to formatting your code: code is communication.
+
+\
+\
+\
+\
+
+**EXAMPLE 1: Make a plot**
+
+Recall our data on hiking the "high peaks" in the Adirondack Mountains of northern New York state. This includes data on the hike’s highest elevation (feet), vertical ascent (feet), length (miles), time in hours that it takes to complete, and difficulty rating.
+
+```{r}
+library(tidyverse)
+
+hikes <- read.csv("https://mac-stat.github.io/data/high_peaks.csv")
+```
+
+Construct a plot that allows us to examine how vertical ascent varies from hike to hike.
+
+```{r}
+ggplot(hikes, aes(x = ascent)) + 
+  geom_density()
+```
+
+\
+\
+\
+\
+
+**EXAMPLE 2: What's wrong?**
+
+Critique the following interpretation of the above plot:
+
+"The typical ascent is around 3000 feet."
+
+We dont know if it is in feet.
+\
+\
+\
+\
+
+**EXAMPLE 3: Captions, axis labels, and titles**
+
+Critique the use of the axis labels, caption, and title here. Then make a better version.
+
+```{r fig.cap = "A density plot of the vertical ascent of a hike, in feet"}
+ggplot(hikes, aes(x = ascent)) + 
+  geom_density() + 
+  labs(x = "the vertical ascent of a hike in feet",
+       title = "Density plot of hike vertical ascent")
+```
+
+\
+\
+\
+\
+
+**EXAMPLE 4: Wrangling practice -- one verb**
+
+```{r}
+# How many hikes are in the dataset?
+hikes |> 
+  nrow()
+
+# What's the maximum elevation among the hikes?
+hikes |> 
+  summarize(max(elevation))
+
+# How many hikes are there of each rating?
+
+hikes |> 
+  count(rating)
+# What hikes have elevations above 5000 ft?
+hikes |> 
+  filter(elevation > 5000)
+
+```
+
+\
+\
+\
+\
+
+**EXAMPLE 5: Wrangling practice -- multiple verbs**
+
+```{r}
+# What's the average hike length for each rating category?
+hikes |> 
+  group_by(rating) |> 
+  summarize(mean(length))
+
+# What's the average length of *only* the easy hikes
+hikes |> 
+  filter(rating == "easy") |> 
+  summarize(mean(length))
+
+# What 6 hikes take the longest time to complete?
+hikes |> 
+  arrange(desc(time)) |> 
+  head()
+
+# What 6 hikes take the longest time per mile?
+
+hikes |> 
+  mutate(time_per_mile = time / length) |> 
+  arrange(desc(time_per_mile)) |> 
+  head()
+```
+
+
+
+## Solutions
+
+<details>
+
+<summary>Click for Solutions</summary>
+
+**EXAMPLE 1: Make a plot**
+
+```{r}
+# A boxplot or histogram could also work!
+ggplot(hikes, aes(x = ascent)) + 
+  geom_density()
+```
+
+\
+\
+\
+\
+
+**EXAMPLE 2: What's wrong?**
+
+That interpretation doesn't say anything about the variability in ascent or other important features.
+
+\
+\
+\
+\
+
+**EXAMPLE 3: Captions, axis labels, and titles**
+
+The axis label is too long, and the caption and title are redundant.
+
+```{r fig.cap = "A density plot of the vertical ascent of a hike, in feet"}
+# Better
+ggplot(hikes, aes(x = ascent)) + 
+  geom_density() + 
+  labs(x = "vertical ascent (feet)")
+```
+
+\
+\
+\
+\
+
+**EXAMPLE 4: Wrangling practice -- one verb**
+
+```{r}
+# How many hikes are in the dataset?
+hikes |> 
+  nrow()
+
+# What's the maximum elevation among the hikes?
+hikes |> 
+  summarize(max(elevation))
+
+# How many hikes are there of each rating?
+hikes |> 
+  count(rating)
+
+# What hikes have elevations above 5000 ft?
+hikes |> 
+  filter(elevation > 5000)
+
+```
+
+\
+\
+\
+\
+
+**EXAMPLE 5: Wrangling practice -- multiple verbs**
+
+```{r}
+# What's the average hike length for each rating category?
+hikes |> 
+  group_by(rating) |> 
+  summarize(mean(length))
+
+# What's the average length of *only* the easy hikes
+hikes |> 
+  filter(rating == "easy") |> 
+  summarize(mean(length))
+
+# What 6 hikes take the longest time to complete?
+hikes |> 
+  arrange(desc(time)) |> 
+  head()
+
+# What 6 hikes take the longest time per mile?
+hikes |> 
+  mutate(time_per_mile = time / length) |> 
+  arrange(desc(time_per_mile)) |> 
+  head()
+```
+
+</details>

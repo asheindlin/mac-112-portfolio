@@ -27,6 +27,7 @@ book:
       - activities/Joining-Data.qmd
       - activities/Factors.qmd
       - activities/Strings.qmd
+      - activities/Review.qmd
     
     - part: notes/README.qmd
       chapters: 
