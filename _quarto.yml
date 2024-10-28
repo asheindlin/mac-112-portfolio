@@ -28,6 +28,7 @@ book:
       - activities/Factors.qmd
       - activities/Strings.qmd
       - activities/Review.qmd
+      - activities/Data-Import.qmd
     
     - part: notes/README.qmd
       chapters: 
